@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "i18next";
 
@@ -9,12 +9,16 @@ import SunnyIcon from '@mui/icons-material/Sunny';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import LanguageIcon from '@mui/icons-material/Language';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import logo from "../../../assets/logo-white.png";
 
 const Header = ({ sideBarCollapsed, onToggle }) => {
 
     const { t } = useTranslation();
+
+    const [openDropdown, setOpenDropdown] = useState(false);
 
     const toggleLang = () => {
         const newLang = i18n.language === "en" ? "ar" : "en";
@@ -24,6 +28,16 @@ const Header = ({ sideBarCollapsed, onToggle }) => {
     useEffect(() => {
         document.dir = i18n.language === "ar" ? "rtl" : "ltr";
     }, [i18n.language]);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (openDropdown && !event.target.closest('.user-profile-button')) {
+                setOpenDropdown(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [openDropdown]);
 
     const isArabic = i18n.language === "ar";
     return (
@@ -61,7 +75,7 @@ const Header = ({ sideBarCollapsed, onToggle }) => {
                         <AddIcon className='w-4 h-4' />
                         <span className='text-sm font-medium'>{t("New")}</span>
                     </button>
-
+                    {/* theme toggle */}
                     <button className='p-2.5 rounded-xl text-slate-800 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors'>
                         <SunnyIcon className='w-5 h-5' />
                     </button>
@@ -69,7 +83,7 @@ const Header = ({ sideBarCollapsed, onToggle }) => {
 
                     <button className='relative p-2.5 rounded-xl text-slate-800 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors'>
                         <NotificationsIcon className='w-5 h-5' />
-                        <span className='absolute top-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center'>5</span>
+                        <span className='absolute top-3 w-2 h-2 bg-red-500 text-white text-xs rounded-full flex items-center justify-center'></span>
                     </button>
                     {/* language switcher */}
                     <button
@@ -79,18 +93,37 @@ const Header = ({ sideBarCollapsed, onToggle }) => {
                         <LanguageIcon className='w-5 h-5' />
                     </button>
                     {/* user profile */}
-                    <div className={`flex items-center space-x-3 pl-3 ${isArabic? 'border-r pr-3' : 'border-l'
-                        } border-slate-200 dark:border-slate-700`}>
-                        <img src={logo} className='w-8 h-8 rounded-full ring-2 object-contain ring-blue-500' alt="" />
-                        <div className='hidden md:block'>
-                            <p className='text-sm font-medium text-slate-500 dark:text-slate-400'>
-                                {t("UserName")}
-                            </p>
-                            <p className='text-xs text-slate-500 dark:text-slate-400'>
-                                {t("Role")}
-                            </p>
-                        </div>
-                        <KeyboardArrowDownIcon className='w-4 h-4 text-slate-400' />
+                    <div className="relative">
+                        <button
+                            className={`user-profile-button flex items-center space-x-3 pl-3 ${isArabic ? 'border-r pr-3' : 'border-l'
+                                } border-slate-200 dark:border-slate-700 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group`}
+                            onClick={() => setOpenDropdown(!openDropdown)}
+                        >
+                            <img src={logo} className='w-8 h-8 rounded-full ring-2 object-contain ring-blue-500' alt="" />
+                            <div className='hidden md:block'>
+                                <p className='text-sm font-medium text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-200'>
+                                    {t("UserName")}
+                                </p>
+                                <p className='text-xs text-slate-500 dark:text-slate-400'>
+                                    {t("Role")}
+                                </p>
+                            </div>
+                            <KeyboardArrowDownIcon className={`w-4 h-4 text-slate-400 transition-transform ${openDropdown ? 'rotate-180' : ''}`} />
+                        </button>
+                        {openDropdown && (
+                            <div className="absolute -bottom-34 left-0 mb-2 w-48 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl backdrop-blur-sm z-50 origin-bottom-right transition-all duration-200 ease-in-out scale-100 opacity-100 translate-y-0">
+                                <div className="py-2">
+                                    <button className="w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-sm">
+                                        <SettingsIcon className="w-4 h-4 text-slate-600 dark:text-slate-300" />
+                                        <span className="text-slate-600 dark:text-slate-300">{t("header_settings")}</span>
+                                    </button>
+                                    <button className="w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-sm text-red-600 dark:text-red-400">
+                                        <LogoutIcon className="w-4 h-4" />
+                                        <span>{t("header_logout")}</span>
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

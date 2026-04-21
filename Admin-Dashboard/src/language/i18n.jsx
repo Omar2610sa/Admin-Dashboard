@@ -24,9 +24,13 @@ const resources = {
             sidebar_security: "Security",
             sidebar_notifications_settings: "Notifications",
             sidebar_user_name: "Omar Salam",
-            sidebar_administrator: "Administrator"
+            sidebar_administrator: "Administrator",
+            header_settings: "Settings",
+            header_logout: "Logout",
+            New: "New",
         },
     },
+
     ar: {
         translation: {
             app: "لوحة التحكم", 
@@ -49,7 +53,11 @@ const resources = {
             sidebar_security: "الأمان",
             sidebar_notifications_settings: "إعدادات الإشعارات",
             sidebar_user_name: "Omar Salam",
-            sidebar_administrator: "مدير النظام"
+            sidebar_administrator: "مدير النظام",
+            header_settings: "الإعدادات",
+            header_logout: "تسجيل الخروج",
+            New: "جديد",
+
         },
     },
 };

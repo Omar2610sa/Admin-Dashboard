@@ -74,7 +74,7 @@ const Sidebar = ({ collapsed, onToggle, currentPage, onPageChange }) => {
     ];
 
     return (
-        <div className={`${collapsed ? "w-20" : "w-64"} transition duration-300 ease-in-out bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-r border-slate-200/50 dark:border-slate-700/50 flex flex-col relative z-10`}>
+<div className={`${collapsed ? "w-20" : "w-64"} transition-all duration-300 ease-in-out bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-r border-slate-200/50 dark:border-slate-700/50 flex flex-col relative z-10 overflow-hidden`}>
 
             {/* Logo */}
             <div className='p-6 border-b border-slate-200/50 dark:border-slate-700/50'>
@@ -86,7 +86,7 @@ const Sidebar = ({ collapsed, onToggle, currentPage, onPageChange }) => {
             </div>
 
             {/* Navigation */}
-            <nav className='flex-1 p-4 space-y-2 overflow-y-auto'>
+            <nav className='sidebar  flex-1 p-4 space-y-2 overflow-y-auto'>
                 {sidebarData.map((item) => {
                     const Icon = item.icon;
 
@@ -105,35 +105,31 @@ const Sidebar = ({ collapsed, onToggle, currentPage, onPageChange }) => {
                                     : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/50"
                                     }`}
                             >
-                                <div className="flex items-center space-x-3">
-                                    <Icon className="w-5 h-5" />
+        <div className="flex items-center space-x-3">
+            <Icon className="w-5 h-5 flex-shrink-0" />
+            <div className={`flex items-center space-x-3 transition-all duration-300 ease-in-out ${collapsed ? 'opacity-0 translate-x-2 scale-x-75 w-0 invisible pointer-events-none overflow-hidden' : 'opacity-100 translate-x-0 scale-x-100 w-auto visible'}`}>
+                <span className="font-medium text-slate-800 dark:text-white truncate">
+                    {t(`sidebar_${item.id}`)}
+                </span>
 
-                                    {!collapsed && (
-                                        <>
-                                            <span className="font-medium ml-2 text-slate-800 dark:text-white truncate">
-                                                {t(`sidebar_${item.id}`)}
-                                            </span>
+                {item.count && (
+                    <span className="px-2 py-1 text-xs bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-full">
+                        {item.count}
+                    </span>
+                )}
+            </div>
+        </div>
 
-                                            {item.count && (
-                                                <span className="px-2 py-1 text-xs bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-full">
-                                                    {item.count}
-                                                </span>
-                                            )}
-                                        </>
-                                    )}
-                                </div>
-
-                                {item.submenu && !collapsed && (
+                                {item.submenu && (
                                     <ChevronDown
-                                        className={`w-4 h-4 transition-transform ${openMenu === item.id ? "rotate-180" : ""
-                                            }`}
+                                        className={`w-4 h-4 flex-shrink-0 transition-all duration-300 ease-in-out ${collapsed ? 'opacity-0 scale-0 translate-y-1' : 'opacity-100 scale-100 translate-y-0'} ${openMenu === item.id ? "rotate-180" : ""}`}
                                     />
                                 )}
                             </button>
 
                             {/* Submenu */}
-                            {item.submenu && openMenu === item.id && !collapsed && (
-                                <div className="ml-8 mt-2 space-y-1">
+                            {item.submenu && openMenu === item.id && (
+                                <div className={`ml-8 mt-2 space-y-1 transition-all duration-300 ease-in-out overflow-hidden ${collapsed ? 'opacity-0 max-h-0 p-0' : 'opacity-100 max-h-96 p-2'}`}>
                                     {item.submenu.map((subitem) => (
                                         <button
                                             key={subitem.id}
@@ -154,25 +150,23 @@ const Sidebar = ({ collapsed, onToggle, currentPage, onPageChange }) => {
             </nav>
 
             {/* User Profile */}
-            {!collapsed && (
-                <div className='p-4 border-t border-slate-200/50 dark:border-slate-700/50'>
-                    <div className='flex items-center space-x-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50'>
-                        <img
-                            src={logo}
-                            alt="user"
-                            className='w-10 h-10 rounded-full ring-2 object-contain ring-blue-500'
-                        />
-                        <div className='flex-1 min-w-0'>
-                            <p className='text-sm font-medium text-slate-800 dark:text-white truncate'>
-                                {t('sidebar_user_name')}
-                            </p>
-                            <p className='text-xs text-slate-500 dark:text-slate-400 truncate'>
-                                {t('sidebar_administrator')}
-                            </p>
-                        </div>
+            <div className={`p-4 border-t border-slate-200/50 dark:border-slate-700/50 transition-all duration-300 ease-in-out overflow-hidden ${collapsed ? 'max-h-0 opacity-0 p-0' : 'max-h-32 opacity-100 p-4'}`}>
+                <div className='flex items-center space-x-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50'>
+                    <img
+                        src={logo}
+                        alt="user"
+                        className='w-10 h-10 rounded-full ring-2 object-contain ring-blue-500 flex-shrink-0'
+                    />
+                    <div className='flex-1 min-w-0'>
+                        <p className='text-sm font-medium text-slate-800 dark:text-white truncate'>
+                            {t('sidebar_user_name')}
+                        </p>
+                        <p className='text-xs text-slate-500 dark:text-slate-400 truncate'>
+                            {t('sidebar_administrator')}
+                        </p>
                     </div>
                 </div>
-            )}
+            </div>
         </div>
     );
 };

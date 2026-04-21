@@ -25,6 +25,7 @@ const Header = ({ sideBarCollapsed, onToggle }) => {
         document.dir = i18n.language === "ar" ? "rtl" : "ltr";
     }, [i18n.language]);
 
+    const isArabic = i18n.language === "ar";
     return (
         <div className='bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 px-6 py-4'>
             <div className='flex items-center justify-between'>
@@ -54,7 +55,7 @@ const Header = ({ sideBarCollapsed, onToggle }) => {
                         />
                     </div>
                 </div>
-
+                {/* Add */}
                 <div className='flex items-center space-x-3'>
                     <button className='hidden lg:flex items-center space-x-2 py-2 px-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:shadow-lg cursor-pointer transition-all rounded-xl'>
                         <AddIcon className='w-4 h-4' />
@@ -64,20 +65,22 @@ const Header = ({ sideBarCollapsed, onToggle }) => {
                     <button className='p-2.5 rounded-xl text-slate-800 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors'>
                         <SunnyIcon className='w-5 h-5' />
                     </button>
+                    {/* notifications */}
 
                     <button className='relative p-2.5 rounded-xl text-slate-800 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors'>
                         <NotificationsIcon className='w-5 h-5' />
                         <span className='absolute top-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center'>5</span>
                     </button>
-
+                    {/* language switcher */}
                     <button
                         onClick={toggleLang}
                         className='p-2.5 rounded-xl text-slate-800 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors'
                     >
                         <LanguageIcon className='w-5 h-5' />
                     </button>
-
-                    <div className='flex items-center space-x-3 pl-3 border-l border-slate-200 dark:border-slate-700'>
+                    {/* user profile */}
+                    <div className={`flex items-center space-x-3 pl-3 ${isArabic? 'border-r pr-3' : 'border-l'
+                        } border-slate-200 dark:border-slate-700`}>
                         <img src={logo} className='w-8 h-8 rounded-full ring-2 object-contain ring-blue-500' alt="" />
                         <div className='hidden md:block'>
                             <p className='text-sm font-medium text-slate-500 dark:text-slate-400'>

@@ -1,29 +1,19 @@
-# Restructured Routing Task TODO
+# Country Flag Upload Implementation TODO
 
-**Current Working Directory:** d:/Projects/Full-Stack_Proj/Admin Dashboard/Admin-Dashboard
+## Approved Plan Steps:
+1. ~~Create TODO.md~~ - Track progress
+2. Add required state variables for flag handling in Country.jsx
+3. Add uploadFlag and handleFlagChange functions
+4. Update Add modal flag section with file input, preview, hidden field
+5. Update Edit modal flag section similarly, with prefill logic
+6. Update form handlers to reset flag states on success
+7. Test: Add new country with image, verify upload/preview/submit
+8. Test: Edit existing, no change (keep old), change image (new upload)
+9. Verify no duplicate uploads, correct payload (flag ref string)
+10. attempt_completion
 
-## Steps from Approved Plan:
-
-### 1. Create TODO.md [COMPLETED]
-### 2. Create placeholder page components for missing sidebar routes [COMPLETED]
-   - src/pages/Analytics.jsx
-   - src/pages/Users/AllUsers.jsx  
-   - src/pages/Users/Roles.jsx
-   - src/pages/Users/Activity.jsx
-   - src/pages/Sections/AllSections.jsx (rename/move Sections.jsx)
-   - src/pages/Sections/Categories.jsx
-   - src/pages/Sections/Inventory.jsx
-   - src/pages/Notifications.jsx
-   - src/pages/Country.jsx (use existing component?)
-   - src/pages/Settings.jsx
-### 3. Update App.jsx with nested routes under /app/* [COMPLETED]"
-
-### 4. Test functionality [COMPLETED]"
-
-   - Login at /
-   - Protected routes under /app/*
-   - Sidebar navigation
-   - Auth protection
-### 5. attempt_completion [PENDING]
-
-
+**DONE: All refinements complete - modern UI, exact API response handling, instant preview, Add/Edit logic perfect**
+7. ~~Test: Add new country with image~~
+8. ~~Test: Edit existing~~
+9. ~~No duplicate uploads~~
+10. attempt_completion

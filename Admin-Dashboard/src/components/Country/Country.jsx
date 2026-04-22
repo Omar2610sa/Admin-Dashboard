@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import i18n from '../../language/i18n';
 import useFetch from '../../Hooks/useFetch';
 import api from '../../APIs/api';
+
 
 const Country = () => {
     const { data: countries, error } = useFetch('/api/admin/countries');
@@ -13,6 +16,9 @@ const Country = () => {
     const [flagValue, setFlagValue] = useState('');
     const [flagPreviewUrl, setFlagPreviewUrl] = useState('');
     const [uploadingFlag, setUploadingFlag] = useState(false);
+
+    const { t } = useTranslation();
+    const isArabic = i18n.language === "ar";
 
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString('ar-SA', {
@@ -41,6 +47,7 @@ const Country = () => {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('model', 'countries');
+        formData.append('attachment_type', 'image');
 
         try {
             const response = await api.post('/api/general/attachments', formData, {
@@ -84,7 +91,7 @@ const Country = () => {
     };
 
     const handleDelete = async (id) => {
-        if (!confirm('Are you sure you want to delete this country?')) return;
+        if (!confirm(t('country.deleteConfirm'))) return;
 
         try {
             await api.delete(`/api/admin/countries/${id}`);
@@ -138,11 +145,11 @@ const Country = () => {
             <div className="space-y-6">
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="text-3xl font-black text-slate-800 dark:text-white">Countries</h1>
+                        <h1 className="text-3xl font-black text-slate-800 dark:text-white">{t('country.title')}</h1>
                     </div>
                 </div>
                 <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-8">
-                    <h3 className="text-xl font-semibold text-red-800 dark:text-red-200 mb-2">Error loading countries</h3>
+                    <h3 className="text-xl font-semibold text-red-800 dark:text-red-200 mb-2">{t('country.errorTitle')}</h3>
                     <p className="text-red-700 dark:text-red-300">{error.message || error}</p>
                 </div>
             </div>
@@ -153,9 +160,9 @@ const Country = () => {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-black text-slate-800 dark:text-white">Countries</h1>
+                    <h1 className="text-3xl font-black text-slate-800 dark:text-white">{t('country.title')}</h1>
                     <p className="text-slate-600 dark:text-slate-400 mt-1">
-                        Manage countries ({countries?.length || 0} total)
+                        {t('country.description', { count: countries?.length || 0 })} ({countries?.length || 0})
                     </p>
                 </div>
                 <button
@@ -165,7 +172,7 @@ const Country = () => {
                     }}
                     className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-2xl font-semibold shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-200"
                 >
-                    Add Country
+                    {t('country.addButton')}
                 </button>
             </div>
 
@@ -175,13 +182,12 @@ const Country = () => {
                         <table className="w-full">
                             <thead className="bg-slate-50 dark:bg-slate-700/50">
                                 <tr>
-                                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Flag</th>
-                                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Name</th>
-                                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Phone Code</th>
-                                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Phone Limit</th>
-                                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Status</th>
-                                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Created</th>
-                                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Actions</th>
+<th className={`px-6 py-4 text-${isArabic ? 'right' : 'left'} text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}>{t('country.table.flag')}</th>
+                                    <th className={`px-6 py-4 text-${isArabic ? 'right' : 'left'} text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}>{t('country.table.name')}</th>
+                                    <th className={`px-6 py-4 text-${isArabic ? 'right' : 'left'} text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}>{t('country.table.phoneCode')}</th>
+                                    <th className={`px-6 py-4 text-${isArabic ? 'right' : 'left'} text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}>{t('country.table.phoneLimit')}</th>
+                                    <th className={`px-6 py-4 text-${isArabic ? 'right' : 'left'} text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}>{t('country.table.status')}</th>
+                                    <th className={`px-6 py-4 text-${isArabic ? 'right' : 'left'} text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}>{t('country.table.actions')}</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
@@ -220,13 +226,13 @@ const Country = () => {
                                                 onClick={() => openEditModal(country)}
                                                 className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 px-3 py-1 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
                                             >
-                                                Edit
+                                                {t('country.button.edit')}
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(country.id)}
                                                 className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 px-3 py-1 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
                                             >
-                                                Delete
+                                                {t('country.button.delete')}
                                             </button>
                                         </td>
                                     </tr>
@@ -237,8 +243,8 @@ const Country = () => {
                 ) : (
                     <div className="p-12 text-center">
                         <div className="text-6xl text-slate-400 dark:text-slate-500 mb-4">🌍</div>
-                        <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-200 mb-2">No countries found</h3>
-                        <p className="text-slate-500 dark:text-slate-400">Countries will appear here once added.</p>
+                        <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-200 mb-2">{t('country.empty.title')}</h3>
+                        <p className="text-slate-500 dark:text-slate-400">{t('country.empty.subtitle')}</p>
                     </div>
                 )}
             </div>
@@ -248,7 +254,7 @@ const Country = () => {
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
                         <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-2xl font-black text-slate-800 dark:text-white">Add New Country</h2>
+                            <h2 className="text-2xl font-black text-slate-800 dark:text-white">{t('country.modal.add.title')}</h2>
                             <button
                                 onClick={() => {
                                     setShowAddModal(false);
@@ -263,7 +269,7 @@ const Country = () => {
                             {/* New Flag Section */}
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                    Country Flag
+                                    {t('country.label.flag')}
                                 </label>
                                 {flagPreviewUrl && (
                                     <div className="mb-3">
@@ -285,7 +291,7 @@ const Country = () => {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                     </svg>
                                     <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                                        Click to upload flag
+                                        {t('country.upload.clickToUpload')}
                                     </span>
                                     <p className="text-xs text-slate-500 dark:text-slate-400">
                                         PNG, JPG up to 2MB

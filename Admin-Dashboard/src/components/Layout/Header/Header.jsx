@@ -14,7 +14,11 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 import logo from "../../../assets/logo-white.png";
 
-const Header = ({ sideBarCollapsed, onToggle }) => {
+
+import { Link } from "react-router-dom";
+
+
+const Header = ({ onToggle }) => {
 
     const { t } = useTranslation();
 
@@ -117,10 +121,12 @@ const Header = ({ sideBarCollapsed, onToggle }) => {
                                         <SettingsIcon className="w-4 h-4 text-slate-600 dark:text-slate-300" />
                                         <span className="text-slate-600 dark:text-slate-300">{t("header_settings")}</span>
                                     </button>
-                                    <button className="w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-sm text-red-600 dark:text-red-400">
-                                        <LogoutIcon className="w-4 h-4" />
-                                        <span>{t("header_logout")}</span>
-                                    </button>
+                                        <button
+                                            className="w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-sm text-red-600 dark:text-red-400"
+                                        >
+                                            <LogoutIcon className="w-4 h-4" />
+                                            <span>{t("header_logout")}</span>
+                                        </button>
                                 </div>
                             </div>
                         )}

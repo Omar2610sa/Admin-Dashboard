@@ -1,9 +1,11 @@
-# Sidebar i18n Integration TODO
+## Authentication Flow Implementation TODO
 
-## Plan Steps:
-- [x] Step 1: Update i18n.jsx with all sidebar translation keys (en/ar)
-- [x] Step 2: Update Sidebar.jsx with useTranslation and t() calls
-- [x] Step 3: Test localization, RTL/LTR, functionality
-- [x] Step 4: Complete task
-
-**All steps completed. Sidebar fully localized.**
+### Pending Steps:
+1. [x] Install react-router-dom via `npm install react-router-dom`
+2. [x] Update App.jsx: Add BrowserRouter, Routes (/ → Login, /app/* → Protected MainLayout)
+3. [x] Create MainLayout.jsx: Migrate Sidebar + Header + Outlet
+4. [x] Update Login.jsx: Add form, localStorage auth, navigate('/app/dashboard')
+5. [x] Update Header.jsx: Add logout logic (remove localStorage, navigate('/'))
+6. [x] Test flow: Login → protected dashboard, invalid access → login, logout → login
+7. [x] Create stub pages (Dashboard etc.) for Outlet if needed
+8. [x] [Complete]

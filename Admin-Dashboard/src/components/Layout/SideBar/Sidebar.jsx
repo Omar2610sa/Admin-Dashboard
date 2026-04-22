@@ -6,7 +6,8 @@ import {
     Box,
     Settings,
     ChevronDown,
-    Bell
+    Bell,
+    Globe,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -17,7 +18,7 @@ import { useTranslation } from "react-i18next";
 // Images imports
 import logo from "../../../assets/logo-white.png";
 
-const Sidebar = ({ collapsed, onToggle, currentPage, onPageChange }) => {
+const Sidebar = ({ collapsed, currentPage, onPageChange }) => {
     const { t } = useTranslation();
 
     const [openMenu, setOpenMenu] = useState(null);
@@ -62,19 +63,20 @@ const Sidebar = ({ collapsed, onToggle, currentPage, onPageChange }) => {
             label: "Notifications",
         },
         {
+            id: "Country",
+            icon: Globe,
+            label: "Country",
+        },
+        {
             id: "settings",
             icon: Settings,
             label: "Settings",
-            submenu: [
-                { id: "general", label: "General" },
-                { id: "security", label: "Security" },
-                { id: "notifications-settings", label: "Notifications" },
-            ],
         },
+
     ];
 
     return (
-<div className={`${collapsed ? "w-20" : "w-64"} transition-all duration-300 ease-in-out bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-r border-slate-200/50 dark:border-slate-700/50 flex flex-col relative z-10 overflow-hidden`}>
+        <div className={`${collapsed ? "w-20" : "w-64"} transition-all duration-300 ease-in-out bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-r border-slate-200/50 dark:border-slate-700/50 flex flex-col relative z-10 overflow-hidden`}>
 
             {/* Logo */}
             <div className='p-6 border-b border-slate-200/50 dark:border-slate-700/50'>
@@ -105,20 +107,20 @@ const Sidebar = ({ collapsed, onToggle, currentPage, onPageChange }) => {
                                     : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/50"
                                     }`}
                             >
-        <div className="flex items-center space-x-3">
-            <Icon className="w-5 h-5 flex-shrink-0" />
-            <div className={`flex items-center space-x-3 transition-all duration-300 ease-in-out ${collapsed ? 'opacity-0 translate-x-2 scale-x-75 w-0 invisible pointer-events-none overflow-hidden' : 'opacity-100 translate-x-0 scale-x-100 w-auto visible'}`}>
-                <span className="font-medium text-slate-800 dark:text-white truncate">
-                    {t(`sidebar_${item.id}`)}
-                </span>
+                                <div className="flex items-center space-x-3">
+                                    <Icon className="w-5 h-5 flex-shrink-0" />
+                                    <div className={`flex items-center space-x-3 transition-all duration-300 ease-in-out ${collapsed ? 'opacity-0 translate-x-2 scale-x-75 w-0 invisible pointer-events-none overflow-hidden' : 'opacity-100 translate-x-0 scale-x-100 w-auto visible'}`}>
+                                        <span className="font-medium text-slate-800 dark:text-white truncate">
+                                            {t(`${item.id}`)}
+                                        </span>
 
-                {item.count && (
-                    <span className="px-2 py-1 text-xs bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-full">
-                        {item.count}
-                    </span>
-                )}
-            </div>
-        </div>
+                                        {item.count && (
+                                            <span className="px-2 py-1 text-xs bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-full">
+                                                {item.count}
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
 
                                 {item.submenu && (
                                     <ChevronDown

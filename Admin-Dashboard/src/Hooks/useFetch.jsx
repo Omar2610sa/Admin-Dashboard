@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import { useLanguage } from "../../contexts/LanguageContext.jsx";
-import api from "../../API/Axios/Axios";
+import api from "../APIs/Axios";
 
 const useFetch = (endpoint) => {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const { lang } = useLanguage();
 
     useEffect(() => {
         if (!endpoint) return;
@@ -22,7 +20,7 @@ const useFetch = (endpoint) => {
                 setLoading(false);
             });
 
-    }, [endpoint, lang]);
+    }, [endpoint]);
 
     return { data, error, loading };
 };

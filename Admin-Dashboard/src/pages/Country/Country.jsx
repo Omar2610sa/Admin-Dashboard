@@ -3,7 +3,7 @@ import CountryComponent from '../../components/Country/Country';
 
 import useFetch from '../../Hooks/useFetch';
 const CountryPage = () => {
-    const { data: country } = useFetch("/api/admin/countries/2");
+    const { data: country } = useFetch("/api/admin/countries/");
 
 
     console.log(country)

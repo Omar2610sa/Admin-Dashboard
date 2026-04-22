@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Mail, Lock } from 'lucide-react';
 
+import api from '../../APIs/api';
 import { SuccessAlert } from '../../components/Alerts/SuccessAlert';
+import { UnSuccessAlert } from '../../components/Alerts/UnSuccessAlert';
 
 import logo from "../../assets/logo-white.png";
 
@@ -17,16 +19,23 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        SuccessAlert()
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1500));
 
-        // Demo credentials: email: demo@admin.com, password: admin123
-        if (email === 'demo@admin.com' && password === 'admin123') {
+        try {
+            const response = await api.post('/api/admin/auth/login', {
+                email,
+                password
+            });
+            
+            const token = response.data.data.token;
+            localStorage.setItem('token', token);
             localStorage.setItem('isAuthenticated', 'true');
+            
+            SuccessAlert();
             navigate('/app/dashboard');
-        } else {
-            alert('Invalid credentials. Use: demo@admin.com / admin123');
+        } catch (error) {
+            console.error('Login error:', error);
+            UnSuccessAlert();
+        } finally {
             setLoading(false);
         }
     };
@@ -62,7 +71,7 @@ const Login = () => {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 className="w-full pl-12 pr-4 py-4 bg-slate-100/50 dark:bg-slate-700/50 border border-slate-200/50 dark:border-slate-600/50 rounded-2xl text-slate-800 dark:text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                                placeholder="demo@admin.com"
+                                placeholder="Enter your email"
                                 required
                             />
                         </div>
@@ -80,7 +89,7 @@ const Login = () => {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 className="w-full pl-12 pr-4 py-4 bg-slate-100/50 dark:bg-slate-700/50 border border-slate-200/50 dark:border-slate-600/50 rounded-2xl text-slate-800 dark:text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                                placeholder="admin123"
+                                placeholder="Enter your password"
                                 required
                             />
                         </div>

@@ -16,7 +16,8 @@ import Settings from './pages/Settings';
 import "./language/i18n";
 
 const ProtectedRoute = ({ children }) => {
-  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+  const token = localStorage.getItem('token');
+  const isAuthenticated = !!token;
   const location = useLocation();
 
   if (!isAuthenticated) {

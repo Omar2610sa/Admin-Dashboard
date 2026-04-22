@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import api from "../APIs/Axios";
+import api from "../APIs/api";
 
 const useFetch = (endpoint) => {
     const [data, setData] = useState(null);

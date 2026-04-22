@@ -17,7 +17,7 @@ const Country = () => {
 
     const handleDelete = async (id) => {
         if (!confirm('Are you sure you want to delete this country?')) return;
-        
+
         try {
             await api.delete(`/api/admin/countries/${id}`);
             // Trigger refetch or optimistic update
@@ -31,7 +31,7 @@ const Country = () => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const countryData = Object.fromEntries(formData);
-        
+
         try {
             await api.post('/api/admin/countries', countryData);
             setShowAddModal(false);
@@ -41,14 +41,20 @@ const Country = () => {
             alert('Add failed: ' + (err.response?.data?.message || err.message));
         }
     };
-
     const handleEdit = async (e) => {
         e.preventDefault();
+
         const formData = new FormData(e.target);
         const countryData = Object.fromEntries(formData);
-        
+
+        const { id, ...payload } = countryData;
+
         try {
-            await api.put(`/api/admin/countries/${editingCountry.id}`, countryData);
+            await api.put(
+                `/api/admin/countries/${editingCountry.id}`,
+                payload
+            );
+
             setEditingCountry(null);
             window.location.reload();
         } catch (err) {
@@ -56,6 +62,17 @@ const Country = () => {
         }
     };
 
+      const fixFlagUrl = (url) => {
+        if (!url) return "";
+
+        // لو فيه https متكرر بسبب backend bug
+        if (url.includes("https://") && url.indexOf("https://") !== url.lastIndexOf("https://")) {
+            const parts = url.split("https://");
+            return "https://" + parts[parts.length - 1];
+        }
+
+        return url;
+    };
 
     if (error) {
         return (
@@ -109,8 +126,8 @@ const Country = () => {
                                 {countries.map((country) => (
                                     <tr key={country.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/50">
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <img 
-                                                src={country.flag} 
+                                            <img
+                                                src={fixFlagUrl(country.flag)}
                                                 alt={country.name_en}
                                                 className="w-12 h-8 object-cover rounded-lg shadow-md"
                                                 onError={(e) => {
@@ -182,7 +199,7 @@ const Country = () => {
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                                     Flag Image URL
                                 </label>
-                                <input type="url" name="flag" className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required />
+                                <input type="text" name="flag" className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" required />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
@@ -235,7 +252,6 @@ const Country = () => {
                             </button>
                         </div>
                         <form onSubmit={handleEdit} className="space-y-4">
-                            <input type="hidden" name="id" value={editingCountry.id} />
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                                     Flag Image URL

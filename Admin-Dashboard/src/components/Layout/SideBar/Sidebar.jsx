@@ -26,39 +26,31 @@ const Sidebar = ({ collapsed, currentPage, onPageChange }) => {
 
     const sidebarData = [
         {
-            id: "dashboard",
+            id: "Dashboard",
             icon: Home,
             label: "Dashboard",
         },
         {
-            id: "analytics",
+            id: "Analytics",
             icon: BarChart3,
             label: "Analytics",
         },
         {
-            id: "users",
+            id: "Users",
             icon: Users,
             label: "Users",
             count: "2k",
-            submenu: [
-                { id: "all-users", label: "All Users" },
-                { id: "roles", label: "Roles & Permissions" },
-                { id: "activity", label: "User Activity" },
-            ],
+
         },
         {
-            id: "sections",
+            id: "Sections",
             icon: Box,
             label: "Sections",
             count: "11",
-            submenu: [
-                { id: "all-sections", label: "All Sections" },
-                { id: "categories", label: "Categories" },
-                { id: "inventory", label: "Inventory" },
-            ],
+
         },
         {
-            id: "notifications",
+            id: "Notifications",
             icon: Bell,
             label: "Notifications",
         },
@@ -68,7 +60,7 @@ const Sidebar = ({ collapsed, currentPage, onPageChange }) => {
             label: "Country",
         },
         {
-            id: "settings",
+            id: "Settings",
             icon: Settings,
             label: "Settings",
         },

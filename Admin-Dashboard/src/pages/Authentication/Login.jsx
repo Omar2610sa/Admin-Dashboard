@@ -30,7 +30,7 @@ const Login = () => {
             localStorage.setItem('token', token);
             localStorage.setItem('isAuthenticated', 'true');
             
-            SuccessAlert();
+            SuccessAlert("Signed in successfully");
             navigate('/app/dashboard');
         } catch (error) {
             console.error('Login error:', error);

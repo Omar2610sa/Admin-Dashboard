@@ -14,12 +14,12 @@ const BaseTable = ({
 
     if (loading) {
         return (
-            <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden">
+            <div className=" bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden">
                 <div className="overflow-x-auto">
-                    <table className="w-full">
+                    <table className=" w-full">
                         <thead className="bg-slate-50 dark:bg-slate-700/50">
                             <tr>
-{columns.map(({ key }, index) => (
+                                {columns.map(({ key }, index) => (
                                     <th key={key || index} className={`px-6 py-4 text-${isArabic ? 'right' : 'left'} text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}></th>
                                 ))}
                                 {actions && <th className={`px-6 py-4 text-${isArabic ? 'right' : 'left'} text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}>Actions</th>}
@@ -65,7 +65,7 @@ const BaseTable = ({
                 <table className="w-full">
                     <thead className="bg-slate-50 dark:bg-slate-700/50">
                         <tr>
-{columns.map(({ key, label }) => (
+                            {columns.map(({ key, label }) => (
                                 <th
                                     key={key}
                                     className={`px-6 py-4 text-${isArabic ? 'right' : 'left'} text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}
@@ -83,7 +83,7 @@ const BaseTable = ({
                     <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
                         {data.map((row, index) => (
                             <tr key={row.id || index} className="hover:bg-slate-50 dark:hover:bg-slate-700/50">
-{columns.map(({ key, render }) => {
+                                {columns.map(({ key, render }) => {
                                     const value = row[key];
                                     const cellContent = render ? render(row, value) : (value || '-');
                                     return (

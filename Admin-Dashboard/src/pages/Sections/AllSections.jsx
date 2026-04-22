@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import BaseTable from '../../components/Reuseble/BaseTable/BaseTable';
 import useFetch from '../../Hooks/useFetch';
 
@@ -56,7 +57,7 @@ const AllSections = () => {
           ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200' 
           : 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-200'
       }`}>
-        {isActive ? 'Active' : 'Inactive'}
+{t(`sections.status.${isActive ? 'active' : 'inactive'}`)}
       </span>
     );
   };
@@ -65,13 +66,14 @@ const AllSections = () => {
     return formatDate(value);
   };
 
+  const navigate = useNavigate();
   const actions = (row) => (
     <div className="space-x-2">
       <button
-        onClick={() => alert(`Edit section ${row.id}`)} // Placeholder
+        onClick={() => navigate(`/app/sections/edit/${row.id}`)}
         className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 px-3 py-1 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
       >
-        Edit
+{t('sections.buttons.edit')}
       </button>
       <button
         onClick={() => {
@@ -98,7 +100,7 @@ const AllSections = () => {
           </div>
         </div>
         <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-8">
-          <h3 className="text-xl font-semibold text-red-800 dark:text-red-200 mb-2">Error loading sections</h3>
+          <h3 className="text-xl font-semibold text-red-800 dark:text-red-200 mb-2">{t('sections.errorTitle')}</h3>
           <p className="text-red-700 dark:text-red-300">{error.message || error}</p>
         </div>
       </div>
@@ -106,12 +108,12 @@ const AllSections = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className=" space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-black text-slate-800 dark:text-white">All Sections</h1>
-        <p className="text-slate-600 dark:text-slate-400 mt-1">
-            Manage all sections ({Array.isArray(sections) ? sections.length : 0})
+          <h1 className="text-3xl font-black text-slate-800 dark:text-white">{t('sections.title')}</h1>
+          <p className="text-slate-600 dark:text-slate-400 mt-1">
+            {t('sections.description', { count: Array.isArray(sections) ? sections.length : 0 })}
           </p>
         </div>
         <button

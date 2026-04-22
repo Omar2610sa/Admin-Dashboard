@@ -10,6 +10,7 @@ import Activity from './pages/Users/Activity';
 import AllSections from './pages/Sections/AllSections';
 import Categories from './pages/Sections/Categories';
 import Inventory from './pages/Sections/Inventory';
+import EditSection from './pages/Sections/EditSection';
 import Notifications from './pages/Notifications';
 import CountryPage from './pages/Country/Country';
 import Settings from './pages/Settings';
@@ -44,6 +45,7 @@ const AppContent = () => {
         <Route path="analytics" element={<Analytics />} />
         <Route path="sections" element={<AllSections />} />
         <Route path="all-sections" element={<AllSections />} />
+        <Route path="sections/edit/:id" element={<EditSection />} />
         <Route path="categories" element={<Categories />} />
         <Route path="inventory" element={<Inventory />} />
         <Route path="all-users" element={<AllUsers />} />

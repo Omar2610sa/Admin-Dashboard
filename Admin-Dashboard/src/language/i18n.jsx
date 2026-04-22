@@ -19,6 +19,35 @@ const resources = {
             sidebar_activity: "User Activity",
             sidebar_all_sections: "All Sections",
             sidebar_categories: "Categories",
+            sections: {
+                title: "All Sections",
+                description: "Manage all sections",
+                addButton: "Add Section",
+                errorTitle: "Error loading sections",
+                table: {
+                    id: "ID",
+                    type: "Type",
+                    media: "Media",
+                    title: "Title",
+                    status: "Status",
+                    created: "Created",
+                    actions: "Actions"
+                },
+                empty: {
+                    title: "No sections found",
+                    subtitle: "Sections will appear here once added."
+                },
+                buttons: {
+                    edit: "Edit",
+                    delete: "Delete",
+                    active: "Active",
+                    inactive: "Inactive"
+                },
+                status: {
+                    active: "Active",
+                    inactive: "Inactive"
+                }
+            },
             sidebar_inventory: "Inventory",
             sidebar_general: "General",
             sidebar_security: "Security",
@@ -93,7 +122,7 @@ const resources = {
 
     ar: {
         translation: {
-            app: "لوحة التحكم", 
+            app: "لوحة التحكم",
             Dashboard: "لوحة التحكم",
             Users: "المستخدمين",
             Settings: "الإعدادات",
@@ -108,6 +137,35 @@ const resources = {
             sidebar_activity: "نشاط المستخدم",
             sidebar_all_sections: "جميع الأقسام",
             sidebar_categories: "الفئات",
+            sections: {
+                title: "جميع الأقسام",
+                description: "إدارة جميع الأقسام",
+                addButton: "إضافة قسم",
+                errorTitle: "خطأ في تحميل الأقسام",
+                table: {
+                    id: "المعرف",
+                    type: "النوع",
+                    media: "الوسائط",
+                    title: "العنوان",
+                    status: "الحالة",
+                    created: "تاريخ الإنشاء",
+                    actions: "الإجراءات"
+                },
+                empty: {
+                    title: "لا توجد أقسام",
+                    subtitle: "ستظهر الأقسام هنا بعد الإضافة."
+                },
+                buttons: {
+                    edit: "تعديل",
+                    delete: "حذف",
+                    active: "نشط",
+                    inactive: "غير نشط"
+                },
+                status: {
+                    active: "نشط",
+                    inactive: "غير نشط"
+                }
+            },
             sidebar_inventory: "المخزون",
             sidebar_general: "عام",
             sidebar_security: "الأمان",

@@ -12,7 +12,7 @@ const useFetch = (endpoint) => {
         setLoading(true);
         api.get(endpoint)
             .then((res) => {
-                setData(res.data.data);
+            setData(res.data.data)
                 setLoading(false);
             })
             .catch((err) => {

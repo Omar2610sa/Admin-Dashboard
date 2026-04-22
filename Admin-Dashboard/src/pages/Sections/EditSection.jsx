@@ -3,7 +3,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../language/i18n';
 import api from '../../APIs/api';
+import ToggleSwitch from '../../components/Reuseble/ToggleSwitch';
 import { SuccessAlert } from '../../components/Alerts/SuccessAlert';
+
 
 
 const EditSection = () => {
@@ -11,8 +13,10 @@ const EditSection = () => {
   const navigate = useNavigate();
   const { t } = useTranslation(); // t not used yet
 
-  // Form states
+// Form states
   const [section, setSection] = useState(null);
+  const [isActive, setIsActive] = useState(false);
+
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [uploadingMedia, setUploadingMedia] = useState(false);
@@ -26,9 +30,17 @@ const EditSection = () => {
       try {
         const response = await api.get(`/api/admin/sections/${id}`);
         setSection(response.data.data || response.data);
-        if (response.data.data?.media) {
-          setMediaValue(response.data.data.media);
+        setIsActive((response.data.data || response.data).is_active === 1);
+        const data = response.data.data || response.data;
+        setSection(data);
+        setIsActive(data.is_active === 1);
+        if (data.media) {
+          setMediaValue(data.media);
+          setMediaPreviewUrl(() => fixMediaUrl(data.media));
         }
+
+
+
       } catch (err) {
         alert('Failed to load section: ' + (err.response?.data?.message || err.message));
         navigate('/app/sections');
@@ -64,11 +76,14 @@ const EditSection = () => {
         }
       });
       
-      const filename = response.data?.data;
-      if (filename) {
-        setMediaValue(filename);
-        setMediaPreviewUrl(`https://api-araf.vue.aait-d.com/medias/sections/${filename}`);
+
+      const uploadedMedia = response.data?.data || response.data;
+      const mediaString = typeof uploadedMedia === 'string' ? uploadedMedia : (uploadedMedia?.path || uploadedMedia?.url || uploadedMedia?.name || '');
+      if (mediaString) {
+        setMediaValue(mediaString);
+        setMediaPreviewUrl(`https://api-araf.vue.aait-d.com/medias/sections/${mediaString}`);
       }
+
     } catch (err) {
       console.error('Media upload failed:', err);
       alert('Media upload failed: ' + (err.response?.data?.message || err.message));
@@ -87,12 +102,7 @@ const EditSection = () => {
     }
   };
 
-  const resetMediaStates = () => {
-    setMediaFile(null);
-    setMediaValue('');
-    setMediaPreviewUrl('');
-    setUploadingMedia(false);
-  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -101,11 +111,13 @@ const EditSection = () => {
     const formDataObj = Object.fromEntries(new FormData(e.target));
     // Remove unwanted fields and ensure media is string
     const { label, ...payload } = formDataObj;
-    if (payload.media && typeof payload.media !== 'string') {
-      delete payload.media;
-    }
+
+    payload.media = typeof mediaValue === 'string' ? mediaValue : (typeof section.media === 'string' ? section.media : '');
+
+
     // Backend expects 0/1 for is_active
-    payload.is_active = payload.is_active === 'on' || payload.is_active === true || payload.is_active === 1 ? 1 : 0;
+    payload.is_active = isActive ? 1 : 0;
+
 
     try {
       await api.put(`/api/admin/sections/${id}`, payload);
@@ -170,21 +182,48 @@ const EditSection = () => {
             </label>
             {(mediaPreviewUrl || mediaValue) && (
               <div className="mb-4">
-                <div className="w-24 h-20 object-cover rounded-lg shadow-md border-2 border-slate-200 dark:border-slate-600 mx-auto bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+                <div className="w-24 h-20 rounded-lg shadow-md border-2 border-slate-200 dark:border-slate-600 mx-auto bg-slate-100 dark:bg-slate-700 overflow-hidden">
+                  {mediaPreviewUrl && mediaFile ? (
                     <video 
-                      src={mediaPreviewUrl || fixMediaUrl(mediaValue)} 
+                      src={mediaPreviewUrl} 
                       controls 
-                      className="w-full h-full object-cover rounded-lg max-h-20"
+                      className="w-full h-full object-cover"
                       muted
                     >
                       Your browser does not support the video tag.
                     </video>
+                  ) : mediaValue ? (
+
+                    (() => {
+                      const getMediaUrl = (media) => {
+                        if (!media) return "";
+                        if (typeof media === "string") return media;
+                        if (typeof media === "object") {
+                          return media.url || media.path || media.name || "";
+                        }
+                        return "";
+                      };
+                      const mediaUrl = getMediaUrl(mediaValue);
+                      const ext = typeof mediaValue === "string" ? mediaValue.split('.').pop().toLowerCase() : '';
+                      const isVideo = ['mp4', 'webm', 'ogg', 'avi', 'mov'].includes(ext);
+                      const url = fixMediaUrl(mediaUrl);
+                      return isVideo ? (
+                        <video src={url} controls className="w-full h-full object-cover" muted>
+                          Your browser does not support the video tag.
+                        </video>
+                      ) : (
+                        <img src={url} alt="Media preview" className="w-full h-full object-cover" />
+                      );
+                    })()
+
+                  ) : null}
                 </div>
                 <p className="text-xs text-slate-500 dark:text-slate-400 text-center mt-2">
-                  {mediaPreviewUrl ? 'Preview - will upload' : 'Current media'}
+                  {mediaFile ? 'New media preview' : 'Current media'}
                 </p>
               </div>
             )}
+
             <label 
               htmlFor="media-upload"
               className="flex flex-col items-center justify-center gap-2 py-8 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-2xl cursor-pointer hover:border-blue-500 hover:bg-blue-50 dark:hover:border-blue-400 dark:hover:bg-blue-950/50 transition-all w-full"
@@ -298,7 +337,7 @@ const EditSection = () => {
             />
           </div>
 
-          {/* Type */}
+  {/* Type */}
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
               Type
@@ -312,7 +351,21 @@ const EditSection = () => {
             />
           </div>
 
+          {/* Status Toggle */}
+          <div>
+            <label className="flex items-center justify-between text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+              <span>{t('section.status', 'Status')}</span>
+              <span className="text-xs text-slate-500 dark:text-slate-400">{isActive ? t('active') : t('inactive')}</span>
+            </label>
+            <ToggleSwitch 
+              checked={isActive}
+              onChange={setIsActive}
+              className="justify-self-end"
+            />
+          </div>
+
           <div className="flex space-x-4">
+
             <button 
               type="submit" 
               disabled={submitting || uploadingMedia}

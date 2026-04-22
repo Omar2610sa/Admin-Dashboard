@@ -1,11 +1,16 @@
-# Country i18n Implementation TODO
+# BaseTable Implementation TODO
 
-## Completed Steps
-- [x] Create TODO.md with plan steps
-- [x] Step 1: Update src/components/Country/Country.jsx with useTranslation hook and replace all hardcoded strings with t('country.*') keys
-- [x] Step 2: Update src/language/i18n.jsx to add 'country' namespace with all English and Arabic translations
-- [x] Step 3: Test implementation by reloading app and switching languages
+## Completed ✅
+- [x] Create `src/components/Reuseble/BaseTable/BaseTable.jsx` with full props support (columns, data, actions, loading, emptyMessage)
+- [x] Create `src/components/Reuseble/BaseTable/index.js` export
 
-## Remaining Steps
-- [ ] Step 4: Mark complete and attempt_completion
+## Next Steps ⏳
+- [ ] Replace hardcoded table in `src/components/Country/Country.jsx` with `<BaseTable />`
+- [ ] Update Country page to pass columns/data/actions to BaseTable
+- [ ] Apply BaseTable to Sections pages (AllSections.jsx, etc.)
+- [ ] Add pagination support to BaseTable (future)
+- [ ] Test loading/empty states
+- [ ] Run `npm run dev` and verify styling matches existing dashboard
+
+**Status:** BaseTable created successfully! Ready for integration.
 

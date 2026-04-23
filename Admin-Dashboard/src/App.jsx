@@ -11,7 +11,10 @@ import AllSections from './pages/Sections/AllSections';
 import Categories from './pages/Sections/Categories';
 import Inventory from './pages/Sections/Inventory';
 import EditSection from './pages/Sections/EditSection';
+import AllFeatures from './pages/Features/AllFeatures';
+import EditFeature from './pages/Features/EditFeature';
 import Notifications from './pages/Notifications';
+
 import CountryPage from './pages/Country/Country';
 import Settings from './pages/Settings';
 import "./language/i18n";
@@ -46,7 +49,10 @@ const AppContent = () => {
         <Route path="sections" element={<AllSections />} />
         <Route path="all-sections" element={<AllSections />} />
         <Route path="sections/edit/:id" element={<EditSection />} />
+        <Route path="features" element={<AllFeatures />} />
+        <Route path="features/edit/:id" element={<EditFeature />} />
         <Route path="categories" element={<Categories />} />
+
         <Route path="inventory" element={<Inventory />} />
         <Route path="all-users" element={<AllUsers />} />
         <Route path="roles" element={<Roles />} />

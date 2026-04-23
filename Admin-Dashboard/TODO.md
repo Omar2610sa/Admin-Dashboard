@@ -1,16 +1,23 @@
-# BaseTable Implementation TODO
+# Features Page Implementation ✓ Steps 1-3 Complete
 
-## Completed ✅
-- [x] Create `src/components/Reuseble/BaseTable/BaseTable.jsx` with full props support (columns, data, actions, loading, emptyMessage)
-- [x] Create `src/components/Reuseble/BaseTable/index.js` export
+## Plan Progress
+- [x] 1. Create src/pages/Features/AllFeatures.jsx (list page with BaseTable, client pagination 10/page, add modal placeholder)
+- [x] 2. Create src/pages/Features/EditFeature.jsx (edit form identical to EditSection, API /api/admin/features/{id})
+- [x] 3. Edit src/App.jsx (add routes: features -> AllFeatures, features/edit/:id -> EditFeature)
+- [ ] 4. Test: Run \`npm run dev\`, navigate sidebar -> Features, verify list/edit/pagination/UI consistency
 
-## Next Steps ⏳
-- [ ] Replace hardcoded table in `src/components/Country/Country.jsx` with `<BaseTable />`
-- [ ] Update Country page to pass columns/data/actions to BaseTable
-- [ ] Apply BaseTable to Sections pages (AllSections.jsx, etc.)
-- [ ] Add pagination support to BaseTable (future)
-- [ ] Test loading/empty states
-- [ ] Run `npm run dev` and verify styling matches existing dashboard
+**Status**: Ready for testing. Features page replicates Sections exactly with pagination.
 
-**Status:** BaseTable created successfully! Ready for integration.
+
+- [ ] 3. Edit src/App.jsx (add routes: features -> AllFeatures, features/edit/:id -> EditFeature)
+- [ ] 4. Test: Run \`npm run dev\`, navigate sidebar -> Features, verify list/edit/pagination/UI consistency
+
+**Next**: Step 2 - EditFeature.jsx
+
+- [ ] 3. Edit src/App.jsx (add routes: features -> AllFeatures, features/edit/:id -> EditFeature)
+- [ ] 4. Test: Run `npm run dev`, navigate sidebar -> Features, verify list/edit/pagination/UI consistency
+
+**Details**: Client pagination slice, reuse components, exact UI/UX/styling from Sections pages. Schema: id,type,media,title_ar/title_en,is_active,created_at.
+
+**Next**: Complete step 1, mark ✓, proceed.
 

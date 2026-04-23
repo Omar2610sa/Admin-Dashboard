@@ -21,25 +21,30 @@ const EditFeature = () => {
     const [mediaValue, setMediaValue] = useState('');
     const [mediaError, setMediaError] = useState('');
     const [mediaLoadError, setMediaLoadError] = useState(false);
+    const [isBlogsFeature, setIsBlogsFeature] = useState(false);
 
     // Fetch feature data
     useEffect(() => {
         const fetchFeature = async () => {
             try {
-        const response = await api.get(`/api/admin/features/${id}`);
-        let data = response.data.data || response.data;
-        // Handle if API returns list, find single feature by id
-        if (Array.isArray(data)) {
-          data = data.find(f => f.id == id) || data[0];
-        } else if (data && data.features) {
-          data = data.features.find(f => f.id == id) || data.features[0];
-        }
-        setFeature(data);
+                const response = await api.get(`/api/admin/features/${id}`);
+                let data = response.data.data || response.data;
+                // Handle if API returns list, find single feature by id
+                if (Array.isArray(data)) {
+                    data = data.find(f => f.id == id) || data[0];
+                } else if (data && data.features) {
+                    data = data.features.find(f => f.id == id) || data.features[0];
+                }
+                setFeature(data);
                 const active = data.is_active === 1 || data.is_active === '1' || data.is_active === true;
                 setIsActive(active);
                 if (data.media) {
                     setMediaValue(data.media);
                 }
+                // Check if blogs feature
+                const isBlogs = data.type === 'blogs' || data.section === 'blogs';
+                setIsBlogsFeature(isBlogs);
+                console.log('Feature blogs check:', { type: data.type, section: data.section, isBlogs });
             } catch (err) {
                 navigate('/app/features');
             } finally {
@@ -90,8 +95,11 @@ const EditFeature = () => {
                 }
             });
 
+
+
             const uploadedMedia = response.data?.data || response.data;
 
+            // الـ API بترجع object أو string
             if (uploadedMedia) {
                 setMediaValue(uploadedMedia);
             }
@@ -114,7 +122,7 @@ const EditFeature = () => {
         setSubmitting(true);
 
         const formDataObj = Object.fromEntries(new FormData(e.target));
-        const { label, media, ...payload } = formDataObj;
+        const { media, ...payload } = formDataObj;
 
         if (mediaValue) {
             payload.media = mediaValue;
@@ -161,7 +169,7 @@ const EditFeature = () => {
     }
 
     return (
-        <div className={`space-y-6 p-8 max-w-2xl ${isRTL ? 'rtl' : 'ltr'}`} >
+        <div className={`space-y-6 p-8 max-w-4xl ${isRTL ? 'rtl' : 'ltr'}`} >
             <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
                 <div>
                     <h1 className="text-3xl font-black text-slate-800 dark:text-white">Edit Feature</h1>
@@ -282,19 +290,41 @@ const EditFeature = () => {
                     <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${isRTL ? 'rtl' : 'ltr'}`}>
                         <div>
                             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                Title Arabic (title_ar)
+                                Label Arabic 
                             </label>
                             <input
                                 type="text"
-                                name="title_ar"
-                                defaultValue={feature.title_ar || feature.title || ''}
+                                name="label_ar"
+                                defaultValue={feature.label_ar || feature.title || ''}
                                 className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                                 required
                             />
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                Title English (title_en)
+                                Title English 
+                            </label>
+                            <input
+                                type="text"
+                                name="title_en"
+                                defaultValue={feature.label_en || feature.title_en || ''}
+                                className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                                Title Arabic 
+                            </label>
+                            <input
+                                type="text"
+                                name="title_ar"
+                                defaultValue={feature.title_ar || feature.title_ar || ''}
+                                className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                                Title English 
                             </label>
                             <input
                                 type="text"
@@ -305,71 +335,38 @@ const EditFeature = () => {
                         </div>
                     </div>
 
-                    {/* Description AR */}
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                            Description Arabic (description_ar)
-                        </label>
-                        <textarea
-                            name="description_ar"
-                            defaultValue={feature.description_ar || ''}
-                            rows="4"
-                            className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-vertical"
-                        />
-                    </div>
+                    {/* Blogs Description Fields - Conditional */}
+                    {isBlogsFeature && (
+                        <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${isRTL ? 'rtl' : 'ltr'}`}>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                                    Description Arabic 
+                                </label>
+                                <textarea
+                                    name="description_ar"
+                                    defaultValue={feature.description_ar || ''}
+                                    rows="4"
+                                    className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-vertical"
+                                    placeholder="Arabic description for blogs..."
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                                    Description English 
+                                </label>
+                                <textarea
+                                    name="description_en"
+                                    defaultValue={feature.description_en || ''}
+                                    rows="4"
+                                    className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-vertical"
+                                    placeholder="English description for blogs..."
+                                />
+                            </div>
+                        </div>
+                    )}
+ 
 
-                    {/* Description EN */}
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                            Description English (description_en)
-                        </label>
-                        <textarea
-                            name="description_en"
-                            defaultValue={feature.description_en || ''}
-                            rows="4"
-                            className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-vertical"
-                        />
-                    </div>
 
-                    {/* Label AR */}
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                            Label Arabic
-                        </label>
-                        <input
-                            type="text"
-                            name="label"
-                            defaultValue={feature.label || ''}
-                            className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        />
-                    </div>
-
-                    {/* Label EN */}
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                            Label English
-                        </label>
-                        <input
-                            type="text"
-                            name="label_en"
-                            defaultValue={feature.label_en || ''}
-                            className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        />
-                    </div>
-
-                    {/* Type */}
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                            Type
-                        </label>
-                        <input
-                            type="text"
-                            name="type"
-                            defaultValue={feature.type || ''}
-                            className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                            readOnly
-                        />
-                    </div>
 
                     {/* Status Toggle */}
                     <div>

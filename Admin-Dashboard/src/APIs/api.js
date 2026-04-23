@@ -9,11 +9,7 @@ const api = axios.create({
 
 const getToken = () => {
     const token = localStorage.getItem('token');
-    if (!token) {
-        console.log('No auth token found in localStorage');
-        return null;
-    }
-    return token;
+    return token || null;
 };
 
 api.interceptors.request.use(
@@ -32,21 +28,7 @@ api.interceptors.request.use(
 api.interceptors.response.use(
     (response) => response,
     (error) => {
-        const status = error.response?.status;
-        console.error('API Error:', status, error.response?.data || error.message);
-
-        if (status === 401) {
-            console.warn('Unauthorized request or expired token - check your token');
-        }
-
-        if (status === 404) {
-            console.warn('Not found');
-        }
-
-        if (status === 403) {
-            console.warn('Forbidden');
-        }
-
+        console.error(error);
         return Promise.reject(error);
     }
 );

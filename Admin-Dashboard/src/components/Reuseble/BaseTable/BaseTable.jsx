@@ -60,15 +60,15 @@ const BaseTable = ({
     }
 
     return (
-        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden">
+        <div className=" bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden">
             <div className="overflow-x-auto">
-                <table className="w-full">
+                <table className=" w-full">
                     <thead className="bg-slate-50 dark:bg-slate-700/50">
                         <tr>
                             {columns.map(({ key, label }) => (
                                 <th
                                     key={key}
-                                    className={`px-6 py-4 text-${isArabic ? 'right' : 'left'} text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}
+                                    className={`px-6 py-4 text-center text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}
                                 >
                                     {label}
                                 </th>
@@ -80,7 +80,7 @@ const BaseTable = ({
                             )}
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
+                    <tbody className="divide-y divide-slate-200 dark:divide-slate-700 text-center">
                         {data.map((row, index) => (
                             <tr key={row.id || index} className="hover:bg-slate-50 dark:hover:bg-slate-700/50">
                                 {columns.map(({ key, render }) => {

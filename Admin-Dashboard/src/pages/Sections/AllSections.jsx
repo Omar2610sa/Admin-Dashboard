@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import BaseTable from '../../components/Reuseble/BaseTable/BaseTable';
 import useFetch from '../../Hooks/useFetch';
+import Dialogs from '../../components/Dialogs/Dialogs';
 
 const AllSections = () => {
   const { data: sections = [], error, loading } = useFetch('/api/admin/sections');
@@ -46,7 +47,7 @@ const AllSections = () => {
   };
 
   const renderTitle = (row) => {
-    return row.title_en || row.title || '-';
+    return <Dialogs title={row.title} />;
   };
 
   const renderStatus = (row) => {
@@ -108,7 +109,7 @@ const AllSections = () => {
   }
 
   return (
-    <div className=" space-y-6">
+    <div className="  space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-black text-slate-800 dark:text-white">{t('sections.title')}</h1>

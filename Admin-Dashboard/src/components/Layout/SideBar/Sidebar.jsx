@@ -8,6 +8,7 @@ import {
     ChevronDown,
     Bell,
     Globe,
+    Sparkles 
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -47,6 +48,12 @@ const Sidebar = ({ collapsed, currentPage, onPageChange }) => {
             icon: Box,
             label: "Sections",
             count: "11",
+
+        },
+        {
+            id: "Features",
+            icon: Sparkles,
+            label: "Features",
 
         },
         {

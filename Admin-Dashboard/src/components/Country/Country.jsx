@@ -9,7 +9,7 @@ const Country = () => {
     const { data: countries, error } = useFetch('/api/admin/countries');
     const [showAddModal, setShowAddModal] = useState(false);
     const [editingCountry, setEditingCountry] = useState(null);
-    
+
     // New flag handling states
     // eslint-disable-next-line no-unused-vars
     const [flagFile, setFlagFile] = useState(null);
@@ -42,7 +42,7 @@ const Country = () => {
     // New: Flag upload function
     const uploadFlag = async (file) => {
         if (!file) return;
-        
+
         setUploadingFlag(true);
         const formData = new FormData();
         formData.append('file', file);
@@ -55,7 +55,7 @@ const Country = () => {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            
+
             // Parse response.data (filename.png)
             const filename = response.data.data;
             setFlagValue(filename);
@@ -179,15 +179,15 @@ const Country = () => {
             <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden">
                 {countries && countries.length > 0 ? (
                     <div className="overflow-x-auto">
-                        <table className="w-full">
-                            <thead className="bg-slate-50 dark:bg-slate-700/50">
+                        <table className="w-full text-center">
+                            <thead className="bg-slate-50  dark:bg-slate-700/50">
                                 <tr>
-<th className={`px-6 py-4 text-${isArabic ? 'right' : 'left'} text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}>{t('country.table.flag')}</th>
-                                    <th className={`px-6 py-4 text-${isArabic ? 'right' : 'left'} text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}>{t('country.table.name')}</th>
-                                    <th className={`px-6 py-4 text-${isArabic ? 'right' : 'left'} text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}>{t('country.table.phoneCode')}</th>
-                                    <th className={`px-6 py-4 text-${isArabic ? 'right' : 'left'} text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}>{t('country.table.phoneLimit')}</th>
-                                    <th className={`px-6 py-4 text-${isArabic ? 'right' : 'left'} text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}>{t('country.table.status')}</th>
-                                    <th className={`px-6 py-4 text-${isArabic ? 'right' : 'left'} text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}>{t('country.table.actions')}</th>
+                                    <th className={`px-6 py-4  text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}>{t('country.table.flag')}</th>
+                                    <th className={`px-6 py-4 text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}>{t('country.table.name')}</th>
+                                    <th className={`px-6 py-4 text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}>{t('country.table.phoneCode')}</th>
+                                    <th className={`px-6 py-4 text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}>{t('country.table.phoneLimit')}</th>
+                                    <th className={`px-6 py-4 text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}>{t('country.table.status')}</th>
+                                    <th className={`px-6 py-4 text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}>{t('country.table.actions')}</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
@@ -273,17 +273,17 @@ const Country = () => {
                                 </label>
                                 {flagPreviewUrl && (
                                     <div className="mb-3">
-                                        <img 
-                                            src={flagPreviewUrl} 
-                                            alt="Flag preview" 
-                                            className="w-20 h-14 object-cover rounded-lg shadow-md border-2 border-slate-200 dark:border-slate-600 mx-auto" 
+                                        <img
+                                            src={flagPreviewUrl}
+                                            alt="Flag preview"
+                                            className="w-20 h-14 object-cover rounded-lg shadow-md border-2 border-slate-200 dark:border-slate-600 mx-auto"
                                         />
                                         <p className="text-xs text-slate-500 dark:text-slate-400 text-center mt-1">
                                             Preview - will be replaced with server URL
                                         </p>
                                     </div>
                                 )}
-                                <label 
+                                <label
                                     htmlFor="flag-upload-add"
                                     className="flex flex-col items-center justify-center gap-2 py-8 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg cursor-pointer hover:border-teal-500 hover:bg-teal-50 dark:hover:border-teal-400 dark:hover:bg-teal-950/50 transition-all w-full"
                                 >
@@ -297,11 +297,11 @@ const Country = () => {
                                         PNG, JPG up to 2MB
                                     </p>
                                 </label>
-                                <input 
+                                <input
                                     id="flag-upload-add"
-                                    type="file" 
-                                    accept="image/*" 
-                                    onChange={handleFlagChange} 
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleFlagChange}
                                     className="hidden"
                                 />
                                 {uploadingFlag && (
@@ -379,10 +379,10 @@ const Country = () => {
 
                                 {(flagPreviewUrl || flagValue) && (
                                     <div className="mb-3">
-                                        <img 
-                                            src={flagPreviewUrl || fixFlagUrl(flagValue)} 
-                                            alt="Flag preview" 
-                                            className="w-20 h-14 object-cover rounded-lg shadow-md border-2 border-slate-200 dark:border-slate-600 mx-auto" 
+                                        <img
+                                            src={flagPreviewUrl || fixFlagUrl(flagValue)}
+                                            alt="Flag preview"
+                                            className="w-20 h-14 object-cover rounded-lg shadow-md border-2 border-slate-200 dark:border-slate-600 mx-auto"
                                         />
                                         <p className="text-xs text-slate-500 dark:text-slate-400 text-center mt-1">
                                             {flagPreviewUrl ? 'Preview - will be replaced with server URL' : 'Current flag'}
@@ -392,7 +392,7 @@ const Country = () => {
                                 <div className="text-xs text-slate-500 dark:text-slate-400 mb-2">
                                     Select new image to replace, or keep current
                                 </div>
-                                <label 
+                                <label
                                     htmlFor="flag-upload-edit"
                                     className="flex flex-col items-center justify-center gap-2 py-8 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg cursor-pointer hover:border-teal-500 hover:bg-teal-50 dark:hover:border-teal-400 dark:hover:bg-teal-950/50 transition-all w-full"
                                 >
@@ -406,11 +406,11 @@ const Country = () => {
                                         PNG, JPG up to 2MB
                                     </p>
                                 </label>
-                                <input 
+                                <input
                                     id="flag-upload-edit"
-                                    type="file" 
-                                    accept="image/*" 
-                                    onChange={handleFlagChange} 
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleFlagChange}
                                     className="hidden"
                                 />
                                 {uploadingFlag && (

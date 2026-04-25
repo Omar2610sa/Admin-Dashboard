@@ -58,7 +58,7 @@ const AllSections = () => {
           ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200' 
           : 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-200'
       }`}>
-{t(`sections.status.${isActive ? 'active' : 'inactive'}`)}
+        {t(`sections.status.${isActive ? 'active' : 'inactive'}`)}
       </span>
     );
   };
@@ -74,17 +74,17 @@ const AllSections = () => {
         onClick={() => navigate(`/app/sections/edit/${row.id}`)}
         className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 px-3 py-1 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
       >
-{t('sections.buttons.edit')}
+        {t('sections.buttons.edit')}
       </button>
       <button
         onClick={() => {
-          if (confirm(`Delete section ${row.id}?`)) {
+          if (confirm(`${t('sections.buttons.delete')} ${t('sections.title')} ${row.id}?`)) {
             alert('Delete placeholder'); // Placeholder
           }
         }}
         className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 px-3 py-1 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
       >
-        Delete
+        {t('sections.buttons.delete')}
       </button>
     </div>
   );
@@ -94,10 +94,10 @@ const AllSections = () => {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-black text-slate-800 dark:text-white">All Sections</h1>
-          <p className="text-slate-600 dark:text-slate-400 mt-1">
-            Manage all sections ({Array.isArray(sections) ? sections.length : 0})
-          </p>
+            <h1 className="text-3xl font-black text-slate-800 dark:text-white">{t('sections.title')}</h1>
+            <p className="text-slate-600 dark:text-slate-400 mt-1">
+              {t('sections.description', { count: Array.isArray(sections) ? sections.length : 0 })}
+            </p>
           </div>
         </div>
         <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-8">
@@ -109,7 +109,7 @@ const AllSections = () => {
   }
 
   return (
-    <div className="  space-y-6">
+    <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-black text-slate-800 dark:text-white">{t('sections.title')}</h1>
@@ -121,52 +121,54 @@ const AllSections = () => {
           onClick={() => setShowAddModal(true)}
           className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-2xl font-semibold shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-200"
         >
-          {t('sections.addButton', 'Add Section')}
+          {t('sections.addButton')}
         </button>
       </div>
 
       <BaseTable
         columns={[
-          { key: 'id', label: 'ID' },
-          { key: 'type', label: 'Type' },
+          { key: 'id', label: t('sections.table.id') },
+          { key: 'type', label: t('sections.table.type') },
           { 
             key: 'media', 
-            label: 'Media',
+            label: t('sections.table.media'),
             render: renderMedia 
           },
           { 
             key: 'title', 
-            label: 'Title',
+            label: t('sections.table.title'),
             render: renderTitle 
           },
           { 
             key: 'is_active', 
-            label: 'Status',
+            label: t('sections.table.status'),
             render: renderStatus 
           },
           { 
             key: 'created_at', 
-            label: 'Created',
+            label: t('sections.table.created'),
             render: renderDate 
           }
         ]}
         data={sections}
         actions={actions}
         loading={loading}
-        emptyMessage="No sections found"
+        emptyMessage={t('sections.empty.title')}
       />
 
       {/* Add Modal Placeholder */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-2xl max-w-md w-full">
-            <h2 className="text-2xl font-black text-slate-800 dark:text-white mb-6">Add Section (Placeholder)</h2>
-            <p>Section add form coming soon...</p>
+            <h2 className="text-2xl font-black text-slate-800 dark:text-white mb-6">
+              {t('sections.addButton')} ({t('New')})
+            </h2>
+            <p>{t('sections.title')} add form coming soon...</p>
             <button 
               onClick={() => setShowAddModal(false)}
-              className="mt-4 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 py-2 px-4 rounded-xl"
+              className="mt-4 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 py-2 px-4 rounded-xl hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors"
             >
-              Close
+              {t('editSection.cancelButton')}
             </button>
           </div>
         </div>
@@ -176,4 +178,3 @@ const AllSections = () => {
 };
 
 export default AllSections;
-

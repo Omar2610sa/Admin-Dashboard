@@ -66,7 +66,7 @@ const EditSection = () => {
 
     const maxSize = 10 * 1024 * 1024; // 10MB
     if (file.size > maxSize) {
-      setMediaError('File size must be less than 10MB');
+      setMediaError(t('editSection.mediaFormat'));
       return;
     }
 
@@ -85,7 +85,7 @@ const EditSection = () => {
       });
 
       const uploadedMedia = response.data?.data || response.data;
-      
+
       // الـ API بترجع object أو string
       if (uploadedMedia) {
         setMediaValue(uploadedMedia);
@@ -122,7 +122,7 @@ const EditSection = () => {
 
     try {
       await api.put(`/api/admin/sections/${id}`, payload);
-      SuccessAlert("Section updated successfully");
+      SuccessAlert(t('editSection.updateButton') + " successfully");
       navigate('/app/sections');
     } catch (err) {
       setMediaError('Update failed: ' + (err.response?.data?.message || err.message));
@@ -139,7 +139,7 @@ const EditSection = () => {
             <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25" />
             <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" className="opacity-75" />
           </svg>
-          <p className="text-slate-600 dark:text-slate-400">Loading section...</p>
+          <p className="text-slate-600 dark:text-slate-400">{t('editSection.loading')}</p>
         </div>
       </div>
     );
@@ -148,27 +148,29 @@ const EditSection = () => {
   if (!section) {
     return (
       <div className="space-y-6 p-8">
-        <h1 className="text-3xl font-black text-slate-800 dark:text-white">Edit Section</h1>
+        <h1 className="text-3xl font-black text-slate-800 dark:text-white">{t('editSection.title')}</h1>
         <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-8 text-center">
-          Section not found
+          {t('sections.empty.title')}
         </div>
       </div>
     );
   }
 
   return (
-    <div className={`  space-y-6 p-8 max-w-2xl ${isRTL ? 'rtl' : 'ltr'}`}>
+    <div className={`space-y-6 p-8 max-w-2xl ${isRTL ? 'rtl' : 'ltr'}`}>
       <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
         <div>
-          <h1 className="text-3xl font-black text-slate-800 dark:text-white">Edit Section</h1>
-          <p className="text-slate-600 dark:text-slate-400 mt-1">Update section #{section.id}</p>
+          <h1 className="text-3xl font-black text-slate-800 dark:text-white">{t('editSection.title')}</h1>
+          <p className="text-slate-600 dark:text-slate-400 mt-1">
+            {t('editSection.description')} #{section.id}
+          </p>
         </div>
         <div className={`flex gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
           <button
             onClick={() => navigate('/app/sections')}
             className="bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 px-6 py-3 rounded-2xl font-semibold hover:bg-slate-300 dark:hover:bg-slate-600 transition-all"
           >
-            Cancel
+            {t('editSection.cancelButton')}
           </button>
         </div>
       </div>
@@ -178,7 +180,7 @@ const EditSection = () => {
           {/* Media Upload */}
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-4">
-              Media (Image/Video)
+              {t('editSection.media')}
             </label>
 
             {/* Preview Container */}
@@ -190,16 +192,16 @@ const EditSection = () => {
                       const isVideo = isVideoFile(mediaValue);
                       const mediaStr = typeof mediaValue === 'string' ? mediaValue : (mediaValue?.media_url || mediaValue?.url || mediaValue?.path || mediaValue?.name || '');
                       const url = fixMediaUrl(mediaStr);
-                      
+
                       console.log('🎬 Media Debug:', { mediaValue, mediaStr, url, isVideo });
-                      
+
                       if (mediaLoadError) {
                         return (
                           <div className="flex flex-col items-center justify-center h-full gap-2">
                             <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4v2m0-10V5m0 4V3m0 8v2m0 4v2" />
                             </svg>
-                            <p className="text-xs text-red-500 text-center px-2">Failed to load media</p>
+                            <p className="text-xs text-red-500 text-center px-2">{t('editSection.mediaFailed')}</p>
                           </div>
                         );
                       }
@@ -209,10 +211,10 @@ const EditSection = () => {
                           Your browser does not support the video tag.
                         </video>
                       ) : (
-                        <img 
-                          src={url} 
-                          alt="Current media" 
-                          className="w-full h-full object-cover" 
+                        <img
+                          src={url}
+                          alt="Current media"
+                          className="w-full h-full object-cover"
                           onError={() => {
                             console.error('❌ Image failed to load:', url);
                             setMediaLoadError(true);
@@ -225,12 +227,12 @@ const EditSection = () => {
                       );
                     } catch (err) {
                       console.error('❌ Error in preview:', err);
-                      return <p className="text-xs text-red-500">Error loading media</p>;
+                      return <p className="text-xs text-red-500">{t('editSection.mediaFailed')}</p>;
                     }
                   })()}
                 </div>
                 <p className="text-xs text-slate-500 dark:text-slate-400 text-center mt-2">
-                  Current media
+                  {t('editSection.currentMedia')}
                 </p>
               </div>
             )}
@@ -244,10 +246,10 @@ const EditSection = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
               </svg>
               <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                {uploadingMedia ? 'Uploading...' : 'Click to upload or change media'}
+                {uploadingMedia ? t('editSection.uploading') : t('editSection.uploadMedia')}
               </span>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                Image or Video (max 10MB)
+                {t('editSection.mediaFormat')}
               </p>
             </label>
 
@@ -267,7 +269,7 @@ const EditSection = () => {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                 </svg>
-                Uploading media...
+                {t('editSection.uploadingMedia')}
               </div>
             )}
 
@@ -285,7 +287,7 @@ const EditSection = () => {
           <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${isRTL ? 'rtl' : 'ltr'}`}>
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                Title Arabic (title_ar)
+                {t('editSection.titleAr')}
               </label>
               <input
                 type="text"
@@ -297,7 +299,7 @@ const EditSection = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                Title English (title_en)
+                {t('editSection.titleEn')}
               </label>
               <input
                 type="text"
@@ -311,7 +313,7 @@ const EditSection = () => {
           {/* Description AR */}
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-              Description Arabic (description_ar)
+              {t('editSection.descriptionAr')}
             </label>
             <textarea
               name="description_ar"
@@ -324,7 +326,7 @@ const EditSection = () => {
           {/* Description EN */}
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-              Description English (description_en)
+              {t('editSection.descriptionEn')}
             </label>
             <textarea
               name="description_en"
@@ -337,7 +339,7 @@ const EditSection = () => {
           {/* Label AR */}
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-              Label Arabic
+              {t('editSection.labelAr')}
             </label>
             <input
               type="text"
@@ -350,7 +352,7 @@ const EditSection = () => {
           {/* Label EN */}
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-              Label English
+              {t('editSection.labelEn')}
             </label>
             <input
               type="text"
@@ -363,7 +365,7 @@ const EditSection = () => {
           {/* Type */}
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-              Type
+              {t('editSection.type')}
             </label>
             <input
               type="text"
@@ -377,8 +379,10 @@ const EditSection = () => {
           {/* Status Toggle */}
           <div>
             <label className={`flex items-center justify-between text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
-              <span>{t('section.status', 'Status')}</span>
-              <span className="text-xs text-slate-500 dark:text-slate-400">{isActive ? t('active', 'Active') : t('inactive', 'Inactive')}</span>
+              <span>{t('editSection.status')}</span>
+              <span className="text-xs text-slate-500 dark:text-slate-400">
+                {isActive ? t('active') : t('inactive')}
+              </span>
             </label>
             <ToggleSwitch
               checked={isActive}
@@ -394,7 +398,7 @@ const EditSection = () => {
               disabled={submitting || uploadingMedia}
               className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white py-4 px-6 rounded-2xl font-semibold shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
             >
-              {submitting ? 'Updating...' : 'Update Section'}
+              {submitting ? t('editSection.uploading') : t('editSection.updateButton')}
             </button>
             <button
               type="button"
@@ -402,7 +406,7 @@ const EditSection = () => {
               disabled={submitting}
               className="flex-1 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 py-4 px-6 rounded-2xl font-semibold hover:bg-slate-300 dark:hover:bg-slate-600 transition-all disabled:opacity-50"
             >
-              Cancel
+              {t('editSection.cancelButton')}
             </button>
           </div>
         </form>

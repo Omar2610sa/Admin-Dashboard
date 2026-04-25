@@ -6,6 +6,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import SunnyIcon from '@mui/icons-material/Sunny';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import LanguageIcon from '@mui/icons-material/Language';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -23,6 +24,28 @@ const Header = ({ onToggle }) => {
     const { t } = useTranslation();
 
     const [openDropdown, setOpenDropdown] = useState(false);
+    const [theme, setTheme] = useState(() => {
+        const saved = localStorage.getItem("theme");
+        return saved === "dark" ? "dark" : "light";
+    });
+
+    useEffect(() => {
+        if (theme === "dark") {
+            document.documentElement.classList.add("dark");
+        }
+    }, []);
+
+    const toggleTheme = () => {
+        if (theme === "dark") {
+            document.documentElement.classList.remove("dark");
+            localStorage.setItem("theme", "light");
+            setTheme("light");
+        } else {
+            document.documentElement.classList.add("dark");
+            localStorage.setItem("theme", "dark");
+            setTheme("dark");
+        }
+    };
 
     const toggleLang = () => {
         const newLang = i18n.language === "en" ? "ar" : "en";
@@ -80,8 +103,11 @@ const Header = ({ onToggle }) => {
                         <span className='text-sm font-medium'>{t("New")}</span>
                     </button>
                     {/* theme toggle */}
-                    <button className='p-2.5 rounded-xl text-slate-800 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors'>
-                        <SunnyIcon className='w-5 h-5' />
+                    <button
+                        onClick={toggleTheme}
+                        className='p-2.5 rounded-xl text-slate-800 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors'
+                    >
+                        {theme === "dark" ? <SunnyIcon className='w-5 h-5' /> : <DarkModeIcon className='w-5 h-5' />}
                     </button>
                     {/* notifications */}
 

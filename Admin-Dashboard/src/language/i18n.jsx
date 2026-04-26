@@ -121,6 +121,7 @@ const resources = {
                 currentMedia: "Current media",
                 updateButton: "Update Feature",
                 cancelButton: "Cancel",
+                successfully: " successfully",
                 placeholders: {
                     descriptionAr: "Arabic description for blogs...",
                     descriptionEn: "English description for blogs..."
@@ -338,6 +339,7 @@ const resources = {
                 currentMedia: "الوسائط الحالية",
                 updateButton: "تحديث المميزة",
                 cancelButton: "إلغاء",
+                successfully: " بنجاح",
                 placeholders: {
                     descriptionAr: "وصف عربي للمدونات...",
                     descriptionEn: "وصف إنجليزي للمدونات..."

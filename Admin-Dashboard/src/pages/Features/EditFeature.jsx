@@ -132,7 +132,7 @@ const EditFeature = () => {
 
         try {
             await api.put(`/api/admin/features/${id}`, payload);
-            SuccessAlert(t('editFeature.updateButton') + " successfully");
+            SuccessAlert(t('editFeature.updateButton') + t('editFeature.successfully'));
             navigate('/app/features');
         } catch (err) {
             setMediaError('Update failed: ' + (err.response?.data?.message || err.message));

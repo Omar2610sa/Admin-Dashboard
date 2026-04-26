@@ -58,7 +58,7 @@ const AppContent = () => {
         <Route path="roles" element={<Roles />} />
         <Route path="activity" element={<Activity />} />
         <Route path="notifications" element={<Notifications />} />
-        <Route path="Country" element={<CountryPage />} />
+        <Route path="countries" element={<CountryPage />} />
         <Route path="settings" element={<Settings />} />
         <Route path="*" element={<Navigate to="/app/dashboard" replace />} />
       </Route>

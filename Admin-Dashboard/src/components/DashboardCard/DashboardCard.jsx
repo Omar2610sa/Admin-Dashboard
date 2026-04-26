@@ -10,9 +10,11 @@ import HouseIcon from '@mui/icons-material/House';
 import MessageIcon from '@mui/icons-material/Message';
 import ContactsIcon from '@mui/icons-material/Contacts';
 
-import {Link} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const DashboardCard = () => {
+
+    const navigate = useNavigate();
 
     const icons = [
         { icon: <LayersIcon /> },
@@ -39,7 +41,7 @@ const DashboardCard = () => {
                 Array.isArray(DashCard) && DashCard.length > 0 ? (
                     DashCard.map((card, index) => {
                         return (
-                            <div key={card?.id || index} className="bg-white dark:bg-slate-800 rounded-2xl p-8  shadow-xl border  border-slate-100 dark:border-slate-700">
+                            <div key={card?.id || index} onClick={() => navigate(`/app${card.to}`)} className="bg-white dark:bg-slate-800 rounded-2xl p-8  shadow-xl border  border-slate-100 dark:border-slate-700 cursor-pointer">
                                 <div className="flex items-center justify-center gap-6">
                                     <div className="p-3 bg-blue-100 dark:bg-blue-900/30 dark:text-white flex justify-center items-center text-slate-800 rounded-xl">
                                         {icons[index]?.icon}

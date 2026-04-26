@@ -40,7 +40,7 @@ const Sidebar = ({ collapsed, currentPage, onPageChange }) => {
             id: "Users",
             icon: Users,
             label: "Users",
-            count: "2k",
+            count: "4",
 
         },
         {

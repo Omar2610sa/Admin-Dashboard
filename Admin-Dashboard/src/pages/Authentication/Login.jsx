@@ -39,13 +39,13 @@ const Login = () => {
             setLoading(false);
         }
     };
-
+    
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-indigo-50 dark:from-slate-900 dark:to-slate-800 px-4 py-12">
             <div className="max-w-md w-full space-y-8">
                 {/* Logo */}
                 <div className="text-center">
-                    <div className="mx-auto w-24 h-24  rounded-2xl flex items-center justify-center shadow-2xl mb-6">
+                    <div className="mx-auto w-24 h-24  rounded-2xl flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 mb-6">
                         <img src={logo} className="w-30 h-30 object-contain text-white">
                         </img>
                     </div>

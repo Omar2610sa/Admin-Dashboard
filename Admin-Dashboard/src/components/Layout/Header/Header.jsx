@@ -16,7 +16,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import logo from "../../../assets/logo-white.png";
 
 
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 const Header = ({ onToggle }) => {
@@ -58,13 +58,20 @@ const Header = ({ onToggle }) => {
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (openDropdown && !event.target.closest('.user-profile-button')) {
+            if (openDropdown && !event.target.closest('.user-profile-button') && !event.target.closest('.dropdown-menu')) {
                 setOpenDropdown(false);
             }
         };
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [openDropdown]);
+
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        navigate("/");
+    };
 
     const isArabic = i18n.language === "ar";
     return (
@@ -141,18 +148,19 @@ const Header = ({ onToggle }) => {
                             <KeyboardArrowDownIcon className={`w-4 h-4 text-slate-400 transition-transform ${openDropdown ? 'rotate-180' : ''}`} />
                         </button>
                         {openDropdown && (
-                            <div className="absolute -bottom-34 left-0 mb-2 w-48 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl backdrop-blur-sm z-50 origin-bottom-right transition-all duration-200 ease-in-out scale-100 opacity-100 translate-y-0">
+                            <div className="dropdown-menu absolute -bottom-34 left-0 mb-2 w-48 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl backdrop-blur-sm z-50 origin-bottom-right transition-all duration-200 ease-in-out scale-100 opacity-100 translate-y-0">
                                 <div className="py-2">
                                     <button className="w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-sm">
                                         <SettingsIcon className="w-4 h-4 text-slate-600 dark:text-slate-300" />
                                         <span className="text-slate-600 dark:text-slate-300">{t("header_settings")}</span>
                                     </button>
-                                        <button
-                                            className="w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-sm text-red-600 dark:text-red-400"
-                                        >
-                                            <LogoutIcon className="w-4 h-4" />
-                                            <span>{t("header_logout")}</span>
-                                        </button>
+                                    <button
+                                        onClick={handleLogout}
+                                        className="w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-sm text-red-600 dark:text-red-400"
+                                    >
+                                        <LogoutIcon className="w-4 h-4" />
+                                        <span>{t("header_logout")}</span>
+                                    </button>
                                 </div>
                             </div>
                         )}

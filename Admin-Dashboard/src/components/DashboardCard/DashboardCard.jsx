@@ -41,15 +41,13 @@ const DashboardCard = () => {
                 Array.isArray(DashCard) && DashCard.length > 0 ? (
                     DashCard.map((card, index) => {
                         return (
-                            <div key={card?.id || index} onClick={() => navigate(`/app${card.to}`)} className="bg-white dark:bg-slate-800 rounded-2xl p-8  shadow-xl border  border-slate-100 dark:border-slate-700 cursor-pointer">
-                                <div className="flex items-center justify-center gap-6">
-                                    <div className="p-3 bg-blue-100 dark:bg-blue-900/30 dark:text-white flex justify-center items-center text-slate-800 rounded-xl">
+                            <div key={card?.id || index} onClick={() => navigate(`/app${card.to}`)} className="bg-white dark:bg-slate-800 rounded-2xl p-6  shadow-xl border hover:scale-103 duration-300  border-slate-100 dark:border-slate-700 cursor-pointer">
+                                <div className="flex flex-col items-start justify-center gap-4">
+                                    <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white flex justify-center items-center  rounded-xl">
                                         {icons[index]?.icon}
                                     </div>
-                                    <div className="">
-                                        <p className="text-sm font-medium text-slate-600 dark:text-slate-400">{card?.title}</p>
+                                        <p className=" font-medium text-slate-600 dark:text-slate-400">{card?.title}</p>
                                         <p className="text-3xl font-black text-slate-800 dark:text-white">{card?.total}</p>
-                                    </div>
                                 </div>
                             </div>
                         )

@@ -18,6 +18,8 @@ const AllFeatures = () => {
     per_page: 10
   });
 
+  console.log(paginationMeta.total)
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -162,7 +164,7 @@ const AllFeatures = () => {
             {t('features.title', 'All Features')}
           </h1>
           <p className="text-slate-600 dark:text-slate-400 mt-1">
-            {t('features.description', 'Manage all features ({count})', { count: paginationMeta.total })}
+            {t('features.description', { count: paginationMeta.total })}
           </p>
         </div>
 

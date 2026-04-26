@@ -22,6 +22,7 @@ const EditFeature = () => {
     const [mediaError, setMediaError] = useState('');
     const [mediaLoadError, setMediaLoadError] = useState(false);
     const [isBlogsFeature, setIsBlogsFeature] = useState(false);
+const [mediaPreview,setMediaPreview]=useState("")
 
     // Fetch feature data
     useEffect(() => {
@@ -40,6 +41,7 @@ const EditFeature = () => {
                 setIsActive(active);
                 if (data.media) {
                     setMediaValue(data.media);
+                    setMediaPreview(data.media);
                 }
                 // Check if blogs feature
                 const isBlogs = data.type === 'blogs' || data.section === 'blogs';
@@ -107,9 +109,9 @@ const EditFeature = () => {
             setUploadingMedia(false);
         }
     };
-
     const handleMediaChange = (e) => {
         const file = e.target.files[0];
+        setMediaPreview( URL.createObjectURL(file))
         if (file) {
             uploadMedia(file);
         }
@@ -122,12 +124,14 @@ const EditFeature = () => {
         const formDataObj = Object.fromEntries(new FormData(e.target));
         const { media, ...payload } = formDataObj;
 
-        if (mediaValue) {
-            payload.media = mediaValue;
+          if (mediaValue) {
+            payload.media = mediaValue.media_url??mediaValue;
         } else if (feature?.media) {
             payload.media = feature.media;
         }
-
+if(payload.media==mediaValue.media_url){
+    delete payload.media
+}
         payload.is_active = isActive ? 1 : 0;
 
         try {
@@ -193,14 +197,14 @@ const EditFeature = () => {
                             {t('editFeature.media')}
                         </label>
 
-                        {/* Preview Container */}
-                        {mediaValue && (
+                        {/* mediaPreview Container */}
+                        {mediaPreview && (
                             <div className="mb-4">
                                 <div className="w-48 h-40 rounded-lg shadow-md border-2 border-slate-200 dark:border-slate-600 mx-auto bg-slate-100 dark:bg-slate-700 overflow-hidden flex items-center justify-center">
                                     {(() => {
                                         try {
-                                            const isVideo = isVideoFile(mediaValue);
-                                            const mediaStr = typeof mediaValue === 'string' ? mediaValue : (mediaValue?.media_url || mediaValue?.url || mediaValue?.path || mediaValue?.name || '');
+                                            const isVideo = isVideoFile(mediaPreview);
+                                            const mediaStr = typeof mediaPreview === 'string' ? mediaPreview : (mediaPreview?.media_url || mediaPreview?.url || mediaValue?.path || mediaValue?.name || '');
                                             const url = fixMediaUrl(mediaStr);
 
                                             if (mediaLoadError) {
@@ -306,7 +310,7 @@ const EditFeature = () => {
                             </label>
                             <input
                                 type="text"
-                                name="title_en"
+                                name="label_en"
                                 defaultValue={feature.label_en || feature.title_en || ''}
                                 className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                             />

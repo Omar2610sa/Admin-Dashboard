@@ -39,6 +39,8 @@ const resources = {
             header_settings: "Settings",
             header_logout: "Logout",
             
+            welcomBack: "Welcome back!",
+            todayDate: "Today's Date",
             // Sections translations
             sections: {
                 title: "All Sections",
@@ -257,10 +259,11 @@ const resources = {
             header_settings: "الإعدادات",
             header_logout: "تسجيل الخروج",
             
-            // Sections translations
+            welcomBack: 'مرحبا بعودتك!',
+            todayDate: 'تاريخ اليوم',
             sections: {
                 title: "جميع الأقسام",
-                description: "إدارة جميع الأقسام ({count})",
+                description: "إدارة جميع الأقسام ",
                 addButton: "إضافة قسم",
                 errorTitle: "خطأ في تحميل الأقسام",
                 table: {
@@ -291,7 +294,7 @@ const resources = {
             // Features translations
             features: {
                 title: "جميع المميزات",
-                description: "إدارة جميع المميزات ({count})",
+                description: "إدارة جميع المميزات ",
                 addButton: "إضافة مميزة",
                 errorTitle: "خطأ في تحميل المميزات",
                 table: {

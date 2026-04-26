@@ -31,7 +31,7 @@ const Dialogs = ({ title }) => {
                 BackdropProps={{
                     className: "bg-black/50",
                 }}
-                
+
             >
                 {/* Header */}
                 <DialogTitle
@@ -42,10 +42,10 @@ const Dialogs = ({ title }) => {
             text-slate-800 dark:text-white
           "
                 >
-                    Description 
+                    Description
                     <button
                         onClick={handleClose}
-                        className="text-white hover:text-slate-600 dark:hover:text-slate-200 text-xl duration-300"
+                        className="text-slate-900 hover:text-slate-600 hover:text-slate-400 cursor-pointer dark:hover:text-slate-200 text-xl duration-300"
                     >
                         <CloseIcon />
                     </button>
@@ -53,7 +53,7 @@ const Dialogs = ({ title }) => {
 
                 {/* Content */}
                 <DialogContent
-                    className=" !py-12 bg-slate-800 text-slate-600 dark:text-slate-300"
+                    className=" !py-12 dark:bg-slate-800 bg-slate-100/80  text-slate-900 dark:text-slate-300"
                 >
                     {title}
                 </DialogContent>

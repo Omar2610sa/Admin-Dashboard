@@ -22,7 +22,7 @@ const EditFeature = () => {
     const [mediaError, setMediaError] = useState('');
     const [mediaLoadError, setMediaLoadError] = useState(false);
     const [isBlogsFeature, setIsBlogsFeature] = useState(false);
-const [mediaPreview,setMediaPreview]=useState("")
+    const [mediaPreview, setMediaPreview] = useState("")
 
     // Fetch feature data
     useEffect(() => {
@@ -111,7 +111,7 @@ const [mediaPreview,setMediaPreview]=useState("")
     };
     const handleMediaChange = (e) => {
         const file = e.target.files[0];
-        setMediaPreview( URL.createObjectURL(file))
+        setMediaPreview(URL.createObjectURL(file))
         if (file) {
             uploadMedia(file);
         }
@@ -124,14 +124,14 @@ const [mediaPreview,setMediaPreview]=useState("")
         const formDataObj = Object.fromEntries(new FormData(e.target));
         const { media, ...payload } = formDataObj;
 
-          if (mediaValue) {
-            payload.media = mediaValue.media_url??mediaValue;
+        if (mediaValue) {
+            payload.media = mediaValue.media_url ?? mediaValue;
         } else if (feature?.media) {
             payload.media = feature.media;
         }
-if(payload.media==mediaValue.media_url){
-    delete payload.media
-}
+        if (payload.media == mediaValue.media_url) {
+            delete payload.media
+        }
         payload.is_active = isActive ? 1 : 0;
 
         try {

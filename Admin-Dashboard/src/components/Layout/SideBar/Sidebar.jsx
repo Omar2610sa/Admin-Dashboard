@@ -8,7 +8,8 @@ import {
     ChevronDown,
     Bell,
     Globe,
-    Sparkles 
+    Sparkles,
+    Contact
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -31,11 +32,7 @@ const Sidebar = ({ collapsed, currentPage, onPageChange }) => {
             icon: Home,
             label: "Dashboard",
         },
-        {
-            id: "Analytics",
-            icon: BarChart3,
-            label: "Analytics",
-        },
+
         {
             id: "Users",
             icon: Users,
@@ -57,6 +54,11 @@ const Sidebar = ({ collapsed, currentPage, onPageChange }) => {
 
         },
         {
+            id: "ContactUs",
+            icon: Contact,
+            label: "Contact Us",
+        },
+        {
             id: "Notifications",
             icon: Bell,
             label: "Notifications",
@@ -75,7 +77,7 @@ const Sidebar = ({ collapsed, currentPage, onPageChange }) => {
     ];
 
     return (
-        <div className={`${collapsed ? "w-20" : "w-64"} transition-all duration-300 ease-in-out bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-r border-slate-200/50 dark:border-slate-700/50 flex flex-col relative z-10 overflow-hidden`}>
+        <div className={`${collapsed ? "hidden md:block w-20" : "w-64"}  transition-all duration-300 ease-in-out bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-r border-slate-200/50 dark:border-slate-700/50 flex flex-col relative z-10 overflow-hidden`}>
 
             {/* Logo */}
             <div className='p-6 bg-gradient-to-r from-blue-500 to-purple-600 border-b border-slate-200/50 dark:border-slate-700/50'>
@@ -130,7 +132,7 @@ const Sidebar = ({ collapsed, currentPage, onPageChange }) => {
 
                             {/* Submenu */}
                             {item.submenu && openMenu === item.id && (
-                                <div className={`ml-8 mt-2 space-y-1 transition-all duration-300 ease-in-out overflow-hidden ${collapsed ? 'opacity-0 max-h-0 p-0' : 'opacity-100 max-h-96 p-2'}`}>
+                                <div className={` ml-8 mt-2 space-y-1 transition-all duration-300 ease-in-out overflow-hidden ${collapsed ? 'opacity-0 max-h-0 p-0' : 'opacity-100 max-h-96 p-2'}`}>
                                     {item.submenu.map((subitem) => (
                                         <button
                                             key={subitem.id}

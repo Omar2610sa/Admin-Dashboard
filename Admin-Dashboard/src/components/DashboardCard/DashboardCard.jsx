@@ -35,19 +35,19 @@ const DashboardCard = () => {
 
     console.log(DashCard)
     return (
-        
+
         <div className='grid grid-row-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
             {
                 Array.isArray(DashCard) && DashCard.length > 0 ? (
                     DashCard.map((card, index) => {
                         return (
                             <div key={card?.id || index} onClick={() => navigate(`/app${card.to}`)} className="bg-white dark:bg-slate-800 rounded-2xl p-6  shadow-xl border hover:scale-103 duration-300  border-slate-100 dark:border-slate-700 cursor-pointer">
-                                <div className="flex flex-col items-start justify-center gap-4">
+                                <div className="flex flex-col items-center md:items-start justify-center gap-4">
                                     <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white flex justify-center items-center  rounded-xl">
                                         {icons[index]?.icon}
                                     </div>
-                                        <p className=" font-medium text-slate-600 dark:text-slate-400">{card?.title}</p>
-                                        <p className="text-3xl font-black text-slate-800 dark:text-white">{card?.total}</p>
+                                    <p className=" font-medium text-slate-600 dark:text-slate-400">{card?.title}</p>
+                                    <p className="text-3xl font-black text-slate-800 dark:text-white">{card?.total}</p>
                                 </div>
                             </div>
                         )

@@ -93,7 +93,7 @@ const Header = ({ onToggle }) => {
                     </div>
                 </div>
 
-                <div className='flex-1 max-w-md mx-8'>
+                <div className='hidden  md:flex flex-1 max-w-md mx-8'>
                     <div className='relative'>
                         <SearchIcon className='w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400' />
                         <input

@@ -8,7 +8,8 @@ const resources = {
             Dashboard: "Dashboard",
             Users: "Users",
             Settings: "Settings",
-            Analytics: "Analytics",
+            Applications: "Applications",
+            ContactUs: "Contact Us",
             Sections: "Sections",
             Features: "Features",
             Notifications: "Notifications",
@@ -16,7 +17,8 @@ const resources = {
             
             // Sidebar translations
             sidebar_dashboard: "Dashboard",
-            sidebar_analytics: "Analytics",
+            sidebar_applications: "Applications",
+            sidebar_contactUs: "Contact Us",
             sidebar_users: "Users",
             sidebar_sections: "Sections",
             sidebar_features: "Features",
@@ -154,6 +156,39 @@ const resources = {
                 loading: "Loading section..."
             },
             
+            // Contact Us translations
+            contactUs: {
+                title: "Contact Applications",
+                description: "Manage contact applications ({count})",
+                errorTitle: "Error loading contacts",
+                table: {
+                    id: "ID",
+                    name: "Name",
+                    phoneCode: "Phone Code",
+                    phone: "Phone",
+                    message: "Message",
+                    status: "Status",
+                    created: "Created",
+                    contact: "contact"
+                },
+                empty: {
+                    title: "No contacts found",
+                    subtitle: "Contacts will appear here once submitted."
+                },
+                buttons: {
+                    view: "View",
+                    delete: "Delete",
+                    close: "Close"
+                },
+                status: {
+                    new: "New",
+                    read: "Read"
+                },
+                view: {
+                    title: "Contact Details"
+                }
+            },
+            
             // Common status translations
             active: "Active",
             inactive: "Inactive",
@@ -228,7 +263,8 @@ const resources = {
             Dashboard: "لوحة التحكم",
             Users: "المستخدمين",
             Settings: "الإعدادات",
-            Analytics: "الإحصائيات",
+            Applications: "التقديمات",
+            ContactUs: "تواصل معنا",
             Sections: "الأقسام",
             Features: "المميزات",
             Notifications: "الإشعارات",
@@ -236,7 +272,8 @@ const resources = {
             
             // Sidebar translations
             sidebar_dashboard: "لوحة التحكم",
-            sidebar_analytics: "الإحصائيات",
+            sidebar_applications: "التقديمات",
+            sidebar_contactUs: "تواصل معنا",
             sidebar_users: "المستخدمين",
             sidebar_sections: "الأقسام",
             sidebar_features: "المميزات",
@@ -371,6 +408,39 @@ const resources = {
                 updateButton: "تحديث القسم",
                 cancelButton: "إلغاء",
                 loading: "جاري تحميل القسم..."
+            },
+            
+            // Contact Us translations
+            contactUs: {
+                title: "طلبات التواصل",
+                description: "إدارة طلبات التواصل ({count})",
+                errorTitle: "خطأ في تحميل جهات الاتصال",
+                table: {
+                    id: "المعرف",
+                    name: "الاسم",
+                    phoneCode: "كود الهاتف",
+                    phone: "الهاتف",
+                    message: "الرسالة",
+                    status: "الحالة",
+                    created: "تاريخ الإنشاء",
+                    contact: "جهة اتصال"
+                },
+                empty: {
+                    title: "لا توجد جهات اتصال",
+                    subtitle: "ستظهر جهات الاتصال هنا بعد الإرسال."
+                },
+                buttons: {
+                    view: "عرض",
+                    delete: "حذف",
+                    close: "إغلاق"
+                },
+                status: {
+                    new: "جديد",
+                    read: "مقروء"
+                },
+                view: {
+                    title: "تفاصيل جهة الاتصال"
+                }
             },
             
             // Common status translations

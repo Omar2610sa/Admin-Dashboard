@@ -14,6 +14,7 @@ import EditSection from './pages/Sections/EditSection';
 import AllFeatures from './pages/Features/AllFeatures';
 import EditFeature from './pages/Features/EditFeature';
 import Notifications from './pages/Notifications';
+import ContactUs from './pages/ContactUs/ContactUs';
 
 import CountryPage from './pages/Country/Country';
 import Settings from './pages/Settings';
@@ -35,8 +36,8 @@ const AppContent = () => {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
-      <Route 
-        path="/app/*" 
+      <Route
+        path="/app/*"
         element={
           <ProtectedRoute>
             <MainLayout />
@@ -50,6 +51,7 @@ const AppContent = () => {
         <Route path="all-sections" element={<AllSections />} />
         <Route path="sections/edit/:id" element={<EditSection />} />
         <Route path="features" element={<AllFeatures />} />
+        <Route path="ContactUs" element={<ContactUs />} />
         <Route path="features/edit/:id" element={<EditFeature />} />
         <Route path="categories" element={<Categories />} />
 
@@ -76,4 +78,3 @@ const App = () => {
 };
 
 export default App;
-

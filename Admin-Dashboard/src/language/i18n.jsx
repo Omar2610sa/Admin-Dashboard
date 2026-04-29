@@ -131,6 +131,35 @@ const resources = {
                     descriptionEn: "English description for blogs..."
                 }
             },
+
+            // Create Feature translations (NEW)
+            createFeature: {
+                title: "Create Feature",
+                description: "Create new feature",
+                section: "Section",
+                media: "Media (Image/Video)",
+                labelAr: "Label Arabic",
+                labelEn: "Label English",
+                titleAr: "Title Arabic",
+                titleEn: "Title English",
+                descriptionAr: "Description Arabic",
+                descriptionEn: "Description English",
+                status: "Status",
+                uploadMedia: "Click to upload media",
+                mediaFormat: "Image or Video (max 10MB)",
+                uploading: "Uploading...",
+                uploadingMedia: "Uploading media...",
+                mediaFailed: "Failed to load media",
+                createButton: "Create Feature",
+                cancelButton: "Cancel",
+                successfully: " successfully",
+                placeholders: {
+                    descriptionAr: "Arabic description...",
+                    descriptionEn: "English description...",
+                    section: "Select section"
+                },
+                sectionError: "Section is required"
+            },
             
             // Edit Section translations
             editSection: {
@@ -430,6 +459,35 @@ const resources = {
                     descriptionAr: "وصف عربي للمدونات...",
                     descriptionEn: "وصف إنجليزي للمدونات..."
                 }
+            },
+
+            // Create Feature translations (NEW - AR)
+            createFeature: {
+                title: "إنشاء مميزة",
+                description: "إنشاء مميزة جديدة",
+                section: "القسم",
+                media: "الوسائط (صورة/فيديو)",
+                labelAr: "التسمية العربية",
+                labelEn: "التسمية الإنجليزية",
+                titleAr: "العنوان العربي",
+                titleEn: "العنوان الإنجليزي",
+                descriptionAr: "الوصف العربي",
+                descriptionEn: "الوصف الإنجليزي",
+                status: "الحالة",
+                uploadMedia: "انقر لرفع الوسائط",
+                mediaFormat: "صورة أو فيديو (بحد أقصى 10 ميغا)",
+                uploading: "جاري الرفع...",
+                uploadingMedia: "جاري رفع الوسائط...",
+                mediaFailed: "فشل تحميل الوسائط",
+                createButton: "إنشاء المميزة",
+                cancelButton: "إلغاء",
+                successfully: " بنجاح",
+                placeholders: {
+                    descriptionAr: "الوصف العربي...",
+                    descriptionEn: "الوصف الإنجليزي...",
+                    section: "اختر القسم"
+                },
+                sectionError: "القسم مطلوب"
             },
             
             // Edit Section translations

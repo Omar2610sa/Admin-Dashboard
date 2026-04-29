@@ -4,10 +4,17 @@ import api from '../../APIs/api';
 import BaseTable from '../../components/Reuseble/BaseTable/BaseTable';
 import Dialogs from '../../components/Dialogs/Dialogs';
 
+// Delete functionality
+import { CheckDelete } from '../../components/Alerts/CheckDelete';
+import { SuccessAlert } from '../../components/Alerts/SuccessAlert';
+
+
 
 // Material Ui icons
 import PreviewIcon from '@mui/icons-material/Preview';
 import DeleteIcon from '@mui/icons-material/Delete';
+
+// Alerts
 
 
 // Material UI component
@@ -28,6 +35,10 @@ const ContactUs = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [showViewModal, setShowViewModal] = useState(false);
   const [selectedContact, setSelectedContact] = useState(null);
+
+  // Delete loading state
+  const [deleteLoading, setDeleteLoading] = useState(new Set());
+
 
   const { t } = useTranslation();
 
@@ -112,6 +123,23 @@ const ContactUs = () => {
 
   const renderDate = (row, value) => formatDate(value);
 
+  const handleDelete = async (id) => {
+    setDeleteLoading(prev => new Set(prev).add(id));
+    try {
+      await api.delete(`/api/admin/contacts/${id}`);
+      setContacts(prev => prev.filter(item => item.id !== id));
+      SuccessAlert(`Contact ${id} deleted successfully`);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setDeleteLoading(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(id);
+        return newSet;
+      });
+    }
+  };
+
   const handleView = (row) => {
     setSelectedContact(row);
     setShowViewModal(true);
@@ -126,17 +154,25 @@ const ContactUs = () => {
         <PreviewIcon />
       </button>
       <button
-        onClick={() => {
-          if (confirm(`${t('contactUs.buttons.delete', 'Delete')} ${t('contactUs.table.contact', 'contact')} #${row.id}?`)) {
-            alert('Delete placeholder');
-          }
-        }}
+        onClick={() =>
+          CheckDelete({ title: `This Contact ${row.name}` }).then((result) => {
+            if (result.isConfirmed) {
+              handleDelete(row.id);
+            }
+          })
+        }
+        disabled={deleteLoading.has(row.id)}
         className="text-red-400 hover:text-red-500 dark:text-red-400 dark:hover:text-red-300 px-3 py-1 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
+        title={deleteLoading.has(row.id) ? 'Deleting...' : 'Delete'}
       >
         <DeleteIcon />
+        {deleteLoading.has(row.id) ? (
+          <span className="text-xs">Deleting...</span>
+        ) : null}
       </button>
     </div>
   );
+
 
   if (error) {
     return (

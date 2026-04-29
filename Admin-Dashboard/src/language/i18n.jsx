@@ -246,6 +246,11 @@ const resources = {
                     delete: "Delete",
                     cancel: "Cancel"
                 },
+                delete: {
+                    title: "Delete {{title}}?",
+                    text: "You won't be able to revert this!",
+                    confirmBtn: "Yes, delete",
+                },
                 error: {
                     flagUpload: "Flag upload failed",
                     add: "Add failed",
@@ -499,6 +504,11 @@ const resources = {
                     edit: "تعديل",
                     delete: "حذف",
                     cancel: "إلغاء"
+                },
+                delete: {
+                    title: "حذف {{title}}؟",
+                    text: "لن تتمكن من التراجع عن هذا الإجراء!",
+                    confirmBtn: "نعم، احذف",
                 },
                 error: {
                     flagUpload: "فشل رفع العلم",

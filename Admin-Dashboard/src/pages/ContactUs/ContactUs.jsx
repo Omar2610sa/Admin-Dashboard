@@ -128,7 +128,7 @@ const ContactUs = () => {
     try {
       await api.delete(`/api/admin/contacts/${id}`);
       setContacts(prev => prev.filter(item => item.id !== id));
-      SuccessAlert(`Contact ${id} deleted successfully`);
+      SuccessAlert(`Contact deleted successfully`);
     } catch (err) {
       console.error(err);
     } finally {

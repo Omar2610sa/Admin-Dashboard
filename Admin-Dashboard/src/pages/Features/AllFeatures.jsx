@@ -9,6 +9,10 @@ import api from '../../APIs/api';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
+// Delete functionality
+import { CheckDelete } from '../../components/Alerts/CheckDelete';
+import { SuccessAlert } from '../../components/Alerts/SuccessAlert';
+
 // Material Ui icons
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -28,6 +32,9 @@ const AllFeatures = () => {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [showAddModal, setShowAddModal] = useState(false);
+
+  // Delete loading state
+  const [deleteLoading, setDeleteLoading] = useState(new Set());
 
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -127,6 +134,23 @@ const AllFeatures = () => {
 
   const renderDate = (row, value) => formatDate(value);
 
+  const handleDelete = async (id) => {
+    setDeleteLoading(prev => new Set(prev).add(id));
+    try {
+      await api.delete(`/api/admin/features/${id}`);
+      setFeatures(prev => prev.filter(item => item.id !== id));
+      SuccessAlert(`Feature deleted successfully`);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setDeleteLoading(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(id);
+        return newSet;
+      });
+    }
+  };
+
   const actions = (row) => (
     <div className="space-x-1">
       <button
@@ -137,10 +161,21 @@ const AllFeatures = () => {
       </button>
 
       <button
-        onClick={() => alert('Delete placeholder')}
+        onClick={() =>
+          CheckDelete({ title: `This Feature ${row.title_ar || row.title}` }).then((result) => {
+            if (result.isConfirmed) {
+              handleDelete(row.id);
+            }
+          })
+        }
+        disabled={deleteLoading.has(row.id)}
         className="text-red-400 hover:text-red-500 dark:text-red-400 dark:hover:text-red-300 px-3 py-1 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
+        title={deleteLoading.has(row.id) ? 'Deleting...' : 'Delete'}
       >
         <DeleteIcon />
+        {deleteLoading.has(row.id) ? (
+          <span className="text-xs">Deleting...</span>
+        ) : null}
       </button>
     </div>
   );
@@ -196,7 +231,7 @@ const AllFeatures = () => {
       {/* Pagination (UNCHANGED UI, logic fixed) */}
       {paginationMeta.last_page > 1 && (
         <div className='flex justify-center items-center'>
-          <Stack spacing={2}>
+          <Stack dir={"ltr"} spacing={2}>
             <Pagination
               count={paginationMeta.last_page}
               page={currentPage}

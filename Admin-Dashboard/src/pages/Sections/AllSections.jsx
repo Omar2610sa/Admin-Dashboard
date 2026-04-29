@@ -4,7 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import BaseTable from '../../components/Reuseble/BaseTable/BaseTable';
 import useFetch from '../../Hooks/useFetch';
 import Dialogs from '../../components/Dialogs/Dialogs';
-
+import api from '../../APIs/api';
+import { CheckDelete } from '../../components/Alerts/CheckDelete';
+import { SuccessAlert } from '../../components/Alerts/SuccessAlert';
 
 // Material Ui icons
 import EditIcon from '@mui/icons-material/Edit';
@@ -16,6 +18,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 const AllSections = () => {
   const { data: sections = [], error, loading } = useFetch('/api/admin/sections');
   const [showAddModal, setShowAddModal] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(new Set());
   const { t } = useTranslation();
 
   const formatDate = (dateString) => {
@@ -75,6 +78,26 @@ const AllSections = () => {
     return formatDate(value);
   };
 
+  const handleDelete = async (id) => {
+    setDeleteLoading(prev => new Set(prev).add(id));
+    try {
+      await api.delete(`/api/admin/sections/${id}`);
+      // Local filter since useFetch, no pagination
+      // Note: full refresh would require useFetch key change or window.reload
+      SuccessAlert(`Section deleted successfully`);
+      // Trigger refetch or filter local - but useFetch data immutable, so reload or custom state needed
+      window.location.reload(); // Simple for non-paginated
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setDeleteLoading(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(id);
+        return newSet;
+      });
+    }
+  };
+
   const navigate = useNavigate();
   const actions = (row) => (
     <div className="space-x-1">
@@ -85,14 +108,21 @@ const AllSections = () => {
         <EditIcon />
       </button>
       <button
-        onClick={() => {
-          if (confirm(`${t('sections.buttons.delete')} ${t('sections.title')} ${row.id}?`)) {
-            alert('Delete placeholder'); // Placeholder
-          }
-        }}
+        onClick={() =>
+          CheckDelete({ title: `This Section ${row.title}` }).then((result) => {
+            if (result.isConfirmed) {
+              handleDelete(row.id);
+            }
+          })
+        }
+        disabled={deleteLoading.has(row.id)}
         className="text-red-400 hover:text-red-500 dark:text-red-400 dark:hover:text-red-300 px-3 py-1 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
+        title={deleteLoading.has(row.id) ? 'Deleting...' : 'Delete'}
       >
         <DeleteIcon />
+        {deleteLoading.has(row.id) ? (
+          <span className="text-xs">Deleting...</span>
+        ) : null}
       </button>
     </div>
   );

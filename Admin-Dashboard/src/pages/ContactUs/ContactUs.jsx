@@ -234,16 +234,17 @@ const ContactUs = () => {
       {/* Pagination */}
       {paginationMeta.last_page > 1 && (
         <div className="flex justify-center items-center">
-          <Stack dir="rtl" spacing={2}>
-            <Pagination
-              count={paginationMeta.last_page}
-              page={currentPage}
-              color="primary"
-              size="large"
-              onChange={(event, page) => setCurrentPage(page)}
-              
-            />
-          </Stack>
+          <div className="flex justify-center items-center">
+            <Stack dir={"ltr"} spacing={2}>
+              <Pagination
+                count={paginationMeta.last_page}
+                page={currentPage}
+                color="primary"
+                size="large"
+                onChange={(event, page) => setCurrentPage(page)}
+              />
+            </Stack>
+          </div>
         </div>
       )}
 

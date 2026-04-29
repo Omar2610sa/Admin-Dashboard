@@ -7,6 +7,13 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
+// Delete functionality
+import { CheckDelete } from '../../components/Alerts/CheckDelete';
+import { SuccessAlert } from '../../components/Alerts/SuccessAlert';
+
+// Material Ui icons
+import DeleteIcon from '@mui/icons-material/Delete';
+
 const Applications = () => {
   const [applications, setApplications] = useState([]);
   const [paginationMeta, setPaginationMeta] = useState({
@@ -20,6 +27,9 @@ const Applications = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [showViewModal, setShowViewModal] = useState(false);
   const [selectedApplication, setSelectedApplication] = useState(null);
+
+  // Delete loading state
+  const [deleteLoading, setDeleteLoading] = useState(new Set());
 
   const { t } = useTranslation();
 
@@ -101,6 +111,23 @@ const Applications = () => {
 
   const renderDate = (row, value) => formatDate(value);
 
+  const handleDelete = async (id) => {
+    setDeleteLoading(prev => new Set(prev).add(id));
+    try {
+      await api.delete(`/api/admin/applications/${id}`);
+      setApplications(prev => prev.filter(item => item.id !== id));
+      SuccessAlert(`Application deleted successfully`);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setDeleteLoading(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(id);
+        return newSet;
+      });
+    }
+  };
+
   const handleView = (row) => {
     setSelectedApplication(row);
     setShowViewModal(true);
@@ -113,6 +140,23 @@ const Applications = () => {
         className="text-blue-400 hover:text-blue-500 dark:text-blue-300 dark:hover:text-blue-200 px-3 py-1 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
       >
         <PreviewIcon />
+      </button>
+      <button
+        onClick={() =>
+          CheckDelete({ title: `This Application ${row.name}` }).then((result) => {
+            if (result.isConfirmed) {
+              handleDelete(row.id);
+            }
+          })
+        }
+        disabled={deleteLoading.has(row.id)}
+        className="text-red-400 hover:text-red-500 dark:text-red-400 dark:hover:text-red-300 px-3 py-1 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
+        title={deleteLoading.has(row.id) ? 'Deleting...' : 'Delete'}
+      >
+        <DeleteIcon />
+        {deleteLoading.has(row.id) ? (
+          <span className="text-xs">Deleting...</span>
+        ) : null}
       </button>
     </div>
   );
@@ -172,7 +216,7 @@ const Applications = () => {
 
       {paginationMeta.last_page > 1 && (
         <div className="flex justify-center items-center">
-          <Stack dir="rtl" spacing={2}>
+          <Stack dir={"ltr"} spacing={2}>
             <Pagination
               count={paginationMeta.last_page}
               page={currentPage}

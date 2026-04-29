@@ -15,6 +15,7 @@ import AllFeatures from './pages/Features/AllFeatures';
 import EditFeature from './pages/Features/EditFeature';
 import Notifications from './pages/Notifications';
 import ContactUs from './pages/ContactUs/ContactUs';
+import Applications from './pages/Applications/Applications';
 
 import CountryPage from './pages/Country/Country';
 import Settings from './pages/Settings';
@@ -52,6 +53,7 @@ const AppContent = () => {
         <Route path="sections/edit/:id" element={<EditSection />} />
         <Route path="features" element={<AllFeatures />} />
         <Route path="ContactUs" element={<ContactUs />} />
+        <Route path="Applications" element={<Applications />} />
         <Route path="features/edit/:id" element={<EditFeature />} />
         <Route path="categories" element={<Categories />} />
         <Route path="inventory" element={<Inventory />} />

@@ -9,7 +9,8 @@ import {
     Bell,
     Globe,
     Sparkles,
-    Contact
+    Contact,
+    Form
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -37,7 +38,7 @@ const Sidebar = ({ collapsed, currentPage, onPageChange }) => {
             id: "Users",
             icon: Users,
             label: "Users",
-            count: "4",
+            count: "1",
 
         },
         {
@@ -57,6 +58,11 @@ const Sidebar = ({ collapsed, currentPage, onPageChange }) => {
             id: "ContactUs",
             icon: Contact,
             label: "Contact Us",
+        },
+        {
+            id: "Applications",
+            icon: Form,
+            label: "Applications",
         },
         {
             id: "Notifications",

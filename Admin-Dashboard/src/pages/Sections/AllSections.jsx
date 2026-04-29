@@ -5,6 +5,14 @@ import BaseTable from '../../components/Reuseble/BaseTable/BaseTable';
 import useFetch from '../../Hooks/useFetch';
 import Dialogs from '../../components/Dialogs/Dialogs';
 
+
+// Material Ui icons
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+
+
+
 const AllSections = () => {
   const { data: sections = [], error, loading } = useFetch('/api/admin/sections');
   const [showAddModal, setShowAddModal] = useState(false);
@@ -69,12 +77,12 @@ const AllSections = () => {
 
   const navigate = useNavigate();
   const actions = (row) => (
-    <div className="space-x-2">
+    <div className="space-x-1">
       <button
         onClick={() => navigate(`/app/sections/edit/${row.id}`)}
-        className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 px-3 py-1 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+        className="text-blue-400 hover:text-blue-500 dark:text-blue-300 dark:hover:text-blue-300 px-3 py-1 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
       >
-        {t('sections.buttons.edit')}
+        <EditIcon />
       </button>
       <button
         onClick={() => {
@@ -82,9 +90,9 @@ const AllSections = () => {
             alert('Delete placeholder'); // Placeholder
           }
         }}
-        className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 px-3 py-1 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
+        className="text-red-400 hover:text-red-500 dark:text-red-400 dark:hover:text-red-300 px-3 py-1 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
       >
-        {t('sections.buttons.delete')}
+        <DeleteIcon />
       </button>
     </div>
   );
@@ -114,7 +122,7 @@ const AllSections = () => {
         <div>
           <h1 className="text-3xl font-black text-slate-800 dark:text-white">{t('sections.title')}</h1>
           <p className="text-slate-600 dark:text-slate-400 mt-1">
-            {t('sections.description', { count: Array.isArray(sections) ? sections.length : 0 })}
+            {t('sections.description')} <span>{ Array.isArray(sections) ? sections.length : 0 }</span>
           </p>
         </div>
         <button
@@ -154,6 +162,7 @@ const AllSections = () => {
         actions={actions}
         loading={loading}
         emptyMessage={t('sections.empty.title')}
+        
       />
 
       {/* Add Modal Placeholder */}

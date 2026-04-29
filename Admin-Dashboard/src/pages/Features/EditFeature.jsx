@@ -22,6 +22,7 @@ const EditFeature = () => {
     const [mediaError, setMediaError] = useState('');
     const [mediaLoadError, setMediaLoadError] = useState(false);
     const [isBlogsFeature, setIsBlogsFeature] = useState(false);
+    const [isServiceFeature, setIsServiceFeature] = useState(false);
     const [mediaPreview, setMediaPreview] = useState("")
 
     // Fetch feature data
@@ -45,7 +46,9 @@ const EditFeature = () => {
                 }
                 // Check if blogs feature
                 const isBlogs = data.type === 'blogs' || data.section === 'blogs';
+                const isService = data.type === 'services' || data.section === 'services';
                 setIsBlogsFeature(isBlogs);
+                setIsServiceFeature(isService);
                 console.log('Feature blogs check:', { type: data.type, section: data.section, isBlogs });
             } catch (err) {
                 navigate('/app/features');
@@ -341,6 +344,36 @@ const EditFeature = () => {
 
                     {/* Blogs Description Fields - Conditional */}
                     {isBlogsFeature && (
+                        <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${isRTL ? 'rtl' : 'ltr'}`}>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                                    {t('editFeature.descriptionAr')}
+                                </label>
+                                <textarea
+                                    name="description_ar"
+                                    defaultValue={feature.description_ar || ''}
+                                    rows="4"
+                                    className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-vertical"
+                                    placeholder={t('editFeature.placeholders.descriptionAr')}
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                                    {t('editFeature.descriptionEn')}
+                                </label>
+                                <textarea
+                                    name="description_en"
+                                    defaultValue={feature.description_en || ''}
+                                    rows="4"
+                                    className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-vertical"
+                                    placeholder={t('editFeature.placeholders.descriptionEn')}
+                                />
+                            </div>
+                        </div>
+                    )}
+
+                    {/* ISServices */}
+                    {isServiceFeature && (
                         <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${isRTL ? 'rtl' : 'ltr'}`}>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">

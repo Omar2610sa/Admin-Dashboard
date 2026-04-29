@@ -21,6 +21,7 @@ const EditSection = () => {
   const [mediaValue, setMediaValue] = useState('');
   const [mediaError, setMediaError] = useState('');
   const [mediaLoadError, setMediaLoadError] = useState(false);
+  const [mediaPreview, setMediaPreview] = useState("")
 
   // Fetch section data
   useEffect(() => {
@@ -33,6 +34,8 @@ const EditSection = () => {
         setIsActive(active);
         if (data.media) {
           setMediaValue(data.media);
+          setMediaPreview(data.media);
+
         }
       } catch (err) {
         navigate('/app/sections');
@@ -99,6 +102,7 @@ const EditSection = () => {
 
   const handleMediaChange = (e) => {
     const file = e.target.files[0];
+    setMediaPreview(URL.createObjectURL(file))
     if (file) {
       uploadMedia(file);
     }
@@ -189,8 +193,8 @@ const EditSection = () => {
                 <div className="w-48 h-40 rounded-lg shadow-md border-2 border-slate-200 dark:border-slate-600 mx-auto bg-slate-100 dark:bg-slate-700 overflow-hidden flex items-center justify-center">
                   {(() => {
                     try {
-                      const isVideo = isVideoFile(mediaValue);
-                      const mediaStr = typeof mediaValue === 'string' ? mediaValue : (mediaValue?.media_url || mediaValue?.url || mediaValue?.path || mediaValue?.name || '');
+                      const isVideo = isVideoFile(mediaPreview);
+                      const mediaStr = typeof mediaPreview === 'string' ? mediaPreview : (mediaPreview?.media_url || mediaValue?.url || mediaValue?.path || mediaValue?.name || '');
                       const url = fixMediaUrl(mediaStr);
 
                       console.log('🎬 Media Debug:', { mediaValue, mediaStr, url, isVideo });

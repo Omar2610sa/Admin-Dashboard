@@ -9,6 +9,10 @@ import api from '../../APIs/api';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
+// Material Ui icons
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 const AllFeatures = () => {
   const [features, setFeatures] = useState([]);
   const [paginationMeta, setPaginationMeta] = useState({
@@ -28,7 +32,6 @@ const AllFeatures = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  // ✅ FETCH WITH PAGINATION
   const fetchFeatures = async () => {
     setLoading(true);
     setError(null);
@@ -40,10 +43,8 @@ const AllFeatures = () => {
 
       const resData = response.data;
 
-      // ✅ data
       setFeatures(Array.isArray(resData.data) ? resData.data : []);
 
-      // ✅ meta
       const meta = resData.meta || {};
 
       setPaginationMeta({
@@ -116,8 +117,8 @@ const AllFeatures = () => {
     const isActive = row.is_active;
     return (
       <span className={`px-3 py-1 rounded-full text-xs font-semibold ${isActive
-          ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200'
-          : 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-200'
+        ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200'
+        : 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-200'
         }`}>
         {t(`features.status.${isActive ? 'active' : 'inactive'}`, isActive ? 'Active' : 'Inactive')}
       </span>
@@ -127,19 +128,19 @@ const AllFeatures = () => {
   const renderDate = (row, value) => formatDate(value);
 
   const actions = (row) => (
-    <div className="space-x-2">
+    <div className="space-x-1">
       <button
         onClick={() => navigate(`/app/features/edit/${row.id}`)}
-        className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 px-3 py-1 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+        className="text-blue-400 hover:text-blue-500 dark:text-blue-300 dark:hover:text-blue-300 px-3 py-1 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
       >
-        {t('features.buttons.edit', 'Edit')}
+        <EditIcon />
       </button>
 
       <button
         onClick={() => alert('Delete placeholder')}
-        className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 px-3 py-1 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
+        className="text-red-400 hover:text-red-500 dark:text-red-400 dark:hover:text-red-300 px-3 py-1 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
       >
-        {t('sections.buttons.delete')}
+        <DeleteIcon />
       </button>
     </div>
   );
@@ -164,7 +165,7 @@ const AllFeatures = () => {
             {t('features.title', 'All Features')}
           </h1>
           <p className="text-slate-600 dark:text-slate-400 mt-1">
-            {t('features.description', { count: paginationMeta.total })}
+            {t('features.description')} <span>{paginationMeta.total}</span>
           </p>
         </div>
 

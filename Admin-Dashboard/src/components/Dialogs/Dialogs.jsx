@@ -31,7 +31,6 @@ const Dialogs = ({ title }) => {
                 BackdropProps={{
                     className: "bg-black/50",
                 }}
-
             >
                 {/* Header */}
                 <DialogTitle
@@ -39,8 +38,7 @@ const Dialogs = ({ title }) => {
             flex items-center justify-between
             text-2xl font-black
             bg-white dark:bg-slate-900
-            text-slate-800 dark:text-white
-          "
+            text-slate-800 dark:text-white "
                 >
                     Description
                     <button
@@ -65,3 +63,6 @@ const Dialogs = ({ title }) => {
 };
 
 export default Dialogs;
+
+
+

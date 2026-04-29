@@ -159,7 +159,7 @@ const resources = {
             // Contact Us translations
             contactUs: {
                 title: "Contact Applications",
-                description: "Manage contact applications ({count})",
+                description: "Manage contact applications",
                 errorTitle: "Error loading contacts",
                 table: {
                     id: "ID",
@@ -413,7 +413,7 @@ const resources = {
             // Contact Us translations
             contactUs: {
                 title: "طلبات التواصل",
-                description: "إدارة طلبات التواصل ({count})",
+                description: "إدارة طلبات التواصل",
                 errorTitle: "خطأ في تحميل جهات الاتصال",
                 table: {
                     id: "المعرف",

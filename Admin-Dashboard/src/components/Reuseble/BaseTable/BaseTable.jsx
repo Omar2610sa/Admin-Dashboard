@@ -74,7 +74,7 @@ const BaseTable = ({
                                 </th>
                             ))}
                             {actions && (
-                                <th className={`px-6 py-4 text-${isArabic ? 'right' : 'left'} text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}>
+                                <th className={`px-6 py-4 text-center text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider`}>
                                     Actions
                                 </th>
                             )}

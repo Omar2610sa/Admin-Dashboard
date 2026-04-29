@@ -42,7 +42,7 @@ const AppContent = () => {
           <ProtectedRoute>
             <MainLayout />
           </ProtectedRoute>
-        }
+        }ProtectedRoute
       >
         <Route index element={<Dashboard />} />
         <Route path="dashboard" element={<Dashboard />} />
@@ -54,7 +54,6 @@ const AppContent = () => {
         <Route path="ContactUs" element={<ContactUs />} />
         <Route path="features/edit/:id" element={<EditFeature />} />
         <Route path="categories" element={<Categories />} />
-
         <Route path="inventory" element={<Inventory />} />
         <Route path="all-users" element={<AllUsers />} />
         <Route path="roles" element={<Roles />} />

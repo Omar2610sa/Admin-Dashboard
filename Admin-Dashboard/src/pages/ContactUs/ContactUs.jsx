@@ -113,8 +113,8 @@ const ContactUs = () => {
     const isNew = status === 'new' || status === 'unread';
     return (
       <span className={`px-3 py-1 rounded-full text-xs font-semibold ${isNew
-          ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-200'
-          : 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200'
+        ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-200'
+        : 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200'
         }`}>
         {t(`contactUs.status.${isNew ? 'new' : 'read'}`, isNew ? 'New' : 'Read')}
       </span>
@@ -231,104 +231,117 @@ const ContactUs = () => {
         emptyMessage={t('contactUs.empty.title', 'No contacts found')}
       />
 
-      {/* Pagination */}
-      {paginationMeta.last_page > 1 && (
+      <div className="flex justify-center items-center">
         <div className="flex justify-center items-center">
-          <div className="flex justify-center items-center">
-            <Stack dir={"ltr"} spacing={2}>
-              <Pagination
-                count={paginationMeta.last_page}
-                page={currentPage}
-                color="primary"
-                size="large"
-                onChange={(event, page) => setCurrentPage(page)}
-              />
-            </Stack>
-          </div>
+
+          <Stack dir={"ltr"} spacing={2}>
+            <Pagination
+              count={paginationMeta.last_page}
+              page={currentPage}
+              color="primary"
+              size="large"
+              onChange={(event, page) => setCurrentPage(page)}
+              sx={{
+                '& .MuiPaginationItem-root': {
+                  color: '#cad6e8',
+                  borderColor: '#fff'
+                },
+                '& .Mui-selected': {
+                  backgroundColor: '#8ec5ff',
+                  color: '#fff'
+                },
+                '& .MuiPaginationItem-icon': {
+                  color: '#cad6e3'
+                }
+              }}
+            />
+          </Stack>
         </div>
-      )}
+      </div>
 
       {/* View Modal */}
-      {showViewModal && selectedContact && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-2xl max-w-lg w-full space-y-6">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-black text-slate-800 dark:text-white">
-                {t('contactUs.view.title', 'Contact Details')}
-              </h2>
-              <button
-                onClick={() => setShowViewModal(false)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-2xl leading-none"
-              >
-                &times;
-              </button>
-            </div>
-
-            {/* Modal Content */}
-            <div className="space-y-4">
-              {/* Name */}
-              <div>
-                <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">
-                  {t('contactUs.table.name', 'Name')}
-                </label>
-                <p className="text-slate-800 dark:text-slate-200 font-medium">
-                  {selectedContact.name || selectedContact.full_name || selectedContact.user_name || '-'}
-                </p>
+      {
+        showViewModal && selectedContact && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-2xl max-w-lg w-full space-y-6">
+              {/* Modal Header */}
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-black text-slate-800 dark:text-white">
+                  {t('contactUs.view.title', 'Contact Details')}
+                </h2>
+                <button
+                  onClick={() => setShowViewModal(false)}
+                  className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-2xl leading-none"
+                >
+                  &times;
+                </button>
               </div>
 
-              {/* Email */}
-              <div>
-                <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">
-                  {t('contactUs.table.phone', 'phone')}
-                </label>
-                <p className="text-slate-800 dark:text-slate-200 font-medium">
-                  {selectedContact.phone || selectedContact.phone || selectedContact.phone || '-'}
-                </p>
-              </div>
-
-              {/* Message */}
-              <div>
-                <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">
-                  {t('contactUs.table.message', 'Message')}
-                </label>
-                <p className="text-slate-800 dark:text-slate-200 whitespace-pre-wrap bg-slate-50 dark:bg-slate-700/50 p-4 rounded-xl">
-                  {selectedContact.message || selectedContact.body || selectedContact.content || selectedContact.note || '-'}
-                </p>
-              </div>
-
-              {/* Status & Date */}
-              <div className="flex items-center justify-between pt-2">
+              {/* Modal Content */}
+              <div className="space-y-4">
+                {/* Name */}
                 <div>
                   <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">
-                    {t('contactUs.table.status', 'Status')}
+                    {t('contactUs.table.name', 'Name')}
                   </label>
-                  {renderStatus(selectedContact)}
-                </div>
-                <div className="text-right">
-                  <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">
-                    {t('contactUs.table.created', 'Created')}
-                  </label>
-                  <p className="text-slate-800 dark:text-slate-200">
-                    {formatDate(selectedContact.created_at)}
+                  <p className="text-slate-800 dark:text-slate-200 font-medium">
+                    {selectedContact.name || selectedContact.full_name || selectedContact.user_name || '-'}
                   </p>
                 </div>
+
+                {/* Email */}
+                <div>
+                  <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">
+                    {t('contactUs.table.phone', 'phone')}
+                  </label>
+                  <p className="text-slate-800 dark:text-slate-200 font-medium">
+                    {selectedContact.phone || selectedContact.phone || selectedContact.phone || '-'}
+                  </p>
+                </div>
+
+                {/* Message */}
+                <div>
+                  <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">
+                    {t('contactUs.table.message', 'Message')}
+                  </label>
+                  <p className="text-slate-800 dark:text-slate-200 whitespace-pre-wrap bg-slate-50 dark:bg-slate-700/50 p-4 rounded-xl">
+                    {selectedContact.message || selectedContact.body || selectedContact.content || selectedContact.note || '-'}
+                  </p>
+                </div>
+
+                {/* Status & Date */}
+                <div className="flex items-center justify-between pt-2">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">
+                      {t('contactUs.table.status', 'Status')}
+                    </label>
+                    {renderStatus(selectedContact)}
+                  </div>
+                  <div className="text-right">
+                    <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">
+                      {t('contactUs.table.created', 'Created')}
+                    </label>
+                    <p className="text-slate-800 dark:text-slate-200">
+                      {formatDate(selectedContact.created_at)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Modal Footer */}
+              <div className="pt-4 border-t border-slate-200 dark:border-slate-700">
+                <button
+                  onClick={() => setShowViewModal(false)}
+                  className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-2xl font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-200"
+                >
+                  {t('contactUs.buttons.close', 'Close')}
+                </button>
               </div>
             </div>
-
-            {/* Modal Footer */}
-            <div className="pt-4 border-t border-slate-200 dark:border-slate-700">
-              <button
-                onClick={() => setShowViewModal(false)}
-                className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-2xl font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-200"
-              >
-                {t('contactUs.buttons.close', 'Close')}
-              </button>
-            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )
+      }
+    </div >
   );
 };
 

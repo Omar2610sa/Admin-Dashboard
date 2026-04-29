@@ -157,6 +157,27 @@ const resources = {
             },
             
             // Contact Us translations
+            applications: {
+                title: "Applications",
+                description: "Manage job applications",
+                errorTitle: "Error loading applications",
+                table: {
+                    name: "Name",
+                    phone: "Phone",
+                    jobType: "Job Type",
+                    cv: "CV",
+                    created: "Created"
+                },
+                empty: {
+                    title: "No applications found"
+                },
+                buttons: {
+                    close: "Close"
+                },
+                view: {
+                    title: "Application Details"
+                }
+            },
             contactUs: {
                 title: "Contact Applications",
                 description: "Manage contact applications",
@@ -261,9 +282,29 @@ const resources = {
             },
         },
     },
-
     ar: {
         translation: {
+            applications: {
+                title: "التقديمات",
+                description: "إدارة طلبات التوظيف",
+                errorTitle: "خطأ في تحميل التقديمات",
+                table: {
+                    name: "الاسم",
+                    phone: "الهاتف",
+                    jobType: "نوع الوظيفة",
+                    cv: "السيرة الذاتية",
+                    created: "تاريخ الإنشاء"
+                },
+                empty: {
+                    title: "لا توجد تقديمات"
+                },
+                buttons: {
+                    close: "إغلاق"
+                },
+                view: {
+                    title: "تفاصيل التقديم"
+                }
+            },
             app: "لوحة التحكم",
             Dashboard: "لوحة التحكم",
             Users: "المستخدمين",

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState, lazy } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Mail, Lock } from 'lucide-react';
@@ -7,7 +7,7 @@ import api from '../../APIs/api';
 import { SuccessAlert } from '../../components/Alerts/SuccessAlert';
 import { UnSuccessAlert } from '../../components/Alerts/UnSuccessAlert';
 
-import logo from "../../assets/logo-white.png";
+const logo = (() => lazy("../../assets/logo-white.png"));
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -25,11 +25,11 @@ const Login = () => {
                 email,
                 password
             });
-            
+
             const token = response.data.data.token;
             localStorage.setItem('token', token);
             localStorage.setItem('isAuthenticated', 'true');
-            
+
             SuccessAlert("Signed in successfully");
             navigate('/app/dashboard');
         } catch (error) {
@@ -39,7 +39,7 @@ const Login = () => {
             setLoading(false);
         }
     };
-    
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-indigo-50 dark:from-slate-900 dark:to-slate-800 px-4 py-12">
             <div className="max-w-md w-full space-y-8">

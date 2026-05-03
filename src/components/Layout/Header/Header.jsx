@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "i18next";
 
@@ -13,7 +13,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-import logo from "../../../assets/logo-white.png";
+const logo = (() => lazy("../../assets/logo-white.png"));
 
 
 import { useNavigate } from "react-router-dom";

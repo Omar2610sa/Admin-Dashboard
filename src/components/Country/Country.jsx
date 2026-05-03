@@ -4,6 +4,16 @@ import i18n from '../../language/i18n';
 import useFetch from '../../Hooks/useFetch';
 import api from '../../APIs/api';
 
+// Material Ui icons
+import HomeIcon from '@mui/icons-material/Home';
+import LanguageIcon from '@mui/icons-material/Language';
+// Material Ui componnets
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import Typography from "@mui/material/Typography";
+import Link from "@mui/material/Link";
+import Stack from "@mui/material/Stack";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 
 const Country = () => {
     const { data: countries, error } = useFetch('/api/admin/countries');
@@ -156,11 +166,47 @@ const Country = () => {
         );
     }
 
+    // breadcrumbs
+    const breadcrumbs = [
+        <Link
+            underline="hover"
+            key="1"
+            color="inherit"
+            className="flex items-center justify-between gap-1"
+            href="/app/Dashboard"
+            to="/app/Dashboard"
+        >
+            <HomeIcon sx={{ mr: 0.5 }} fontSize="small" />
+            {t("Dashboard")}
+        </Link>,
+        <Link
+            underline="hover"
+            key="2"
+            className="flex items-center justify-between gap-1"
+            href="/app/Country"
+            to="/app/Country"
+        >
+            <LanguageIcon sx={{ mr: 0.5 }} fontSize="small" />
+            {t("Country")}
+        </Link>,
+    ];
+
+
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-black text-slate-800 dark:text-white">{t('country.title')}</h1>
+                    {/* Breadcrumbs */}
+                    <div>
+                        <Breadcrumbs
+                            separator={!isArabic? <NavigateNextIcon fontSize="medium" /> : <NavigateBeforeIcon fontSize="medium" />}
+                            aria-label="Section"
+                            className="!text-slate-800 dark:!text-white !text-md"
+                        >
+                            {breadcrumbs}
+                        </Breadcrumbs>
+                    </div>
+                    <h1 className="text-3xl font-black text-slate-800 dark:text-white mt-5">{t('country.title')}</h1>
                     <p className="text-slate-600 dark:text-slate-400 mt-1">
                         {t('country.description', { count: countries?.length || 0 })} ({countries?.length || 0})
                     </p>

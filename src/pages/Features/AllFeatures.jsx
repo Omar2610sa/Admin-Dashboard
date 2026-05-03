@@ -10,6 +10,9 @@ import api from '../../APIs/api';
 // Material UI
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import Typography from "@mui/material/Typography";
+import Link from "@mui/material/Link";
 
 // Delete functionality
 import { CheckDelete } from '../../components/Alerts/CheckDelete';
@@ -18,6 +21,15 @@ import { SuccessAlert } from '../../components/Alerts/SuccessAlert';
 // Material Ui icons
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+
+import HomeIcon from '@mui/icons-material/Home';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+
+
+
+
 
 const AllFeatures = () => {
   const [features, setFeatures] = useState([]);
@@ -52,6 +64,8 @@ const AllFeatures = () => {
   const [deleteLoading, setDeleteLoading] = useState(new Set());
 
   const { t } = useTranslation();
+  const isArabic = i18n.language === "ar";
+
   const navigate = useNavigate();
 
   const fetchFeatures = async () => {
@@ -325,14 +339,50 @@ const AllFeatures = () => {
       </div>
     );
   }
+  const breadcrumbs = [
+    <Link
+      underline="hover"
+      key="1"
+      color="inherit"
+      className="flex items-center justify-between gap-1"
+      href="/app/Dashboard"
+      to="/app/Dashboard"
+    >
+      <HomeIcon sx={{ mr: 0.5 }} fontSize="small" />
+      {t("Dashboard")}
+    </Link>,
+    <Link
+      underline="hover"
+      key="2"
+      className="flex items-center justify-between gap-1"
+      href="/app/Features"
+      to="/app/Features"
+    >
+      <AutoAwesomeIcon sx={{ mr: 0.5 }} fontSize="small" />
+      {t("Features")}
+    </Link>,
+  ];
+
+  // BreadCrumbs
+
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
 
       {/* Header (UNCHANGED) */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-black text-slate-800 dark:text-white">
+          {/* Breadcrumbs */}
+          <div>
+            <Breadcrumbs
+              separator={!isArabic ? <NavigateNextIcon fontSize="medium" /> : <NavigateBeforeIcon fontSize="medium" />}
+              aria-label="Section"
+              className="!text-slate-800 dark:!text-white !text-md"
+            >
+              {breadcrumbs}
+            </Breadcrumbs>
+          </div>
+          <h1 className="text-3xl font-black text-slate-800 dark:text-white mt-5">
             {t('features.title', 'All Features')}
           </h1>
           <p className="text-slate-600 dark:text-slate-400 mt-1">
@@ -342,7 +392,7 @@ const AllFeatures = () => {
 
         <button
           onClick={() => setShowAddModal(true)}
-          className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-2xl font-semibold shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-200"
+          className="bg-gradient-to-r from-green-500 to-green-600 text-white mt-5 px-6 py-3 rounded-2xl font-semibold shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-200"
         >
           {t('features.addButton', 'Add Feature')}
         </button>
@@ -374,6 +424,19 @@ const AllFeatures = () => {
               color="primary"
               size="large"
               onChange={(event, page) => setCurrentPage(page)}
+              sx={{
+                '& .MuiPaginationItem-root': {
+                  color: '#cad6e8',
+                  borderColor: '#fff'
+                },
+                '& .Mui-selected': {
+                  backgroundColor: '#6b63ff',
+                  color: '#fff'
+                },
+                '& .MuiPaginationItem-icon': {
+                  color: '#cad6e3'
+                }
+              }}
             />
           </Stack>
         </div>
@@ -382,7 +445,7 @@ const AllFeatures = () => {
       {/* Modal (UNCHANGED) */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className={`bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-4xl w-full mx-4 ${isRTL ? 'rtl' : 'ltr'}`} style={{maxHeight: '95vh', overflowY: 'auto'}}>
+          <div className={`bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-4xl w-full mx-4 ${isRTL ? 'rtl' : 'ltr'}`} style={{ maxHeight: '95vh', overflowY: 'auto' }}>
             <div className={`flex items-center justify-between p-8 ${isRTL ? 'flex-row-reverse' : ''}`}>
               <div>
                 <h1 className="text-3xl font-black text-slate-800 dark:text-white">{t('createFeature.title')}</h1>
@@ -409,20 +472,20 @@ const AllFeatures = () => {
                   <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                     {t('createFeature.section')} <span className="text-red-500">*</span>
                   </label>
-                <select
-                  name="section"
-                  className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  value={sectionId}
-                  onChange={(e) => setSectionId(e.target.value)}
-                  required
-                >
-                  <option value="">{t('createFeature.placeholders.section')}</option>
-                  {sections.map((s) => (
-                    <option key={s.id} value={s.id}>
-                      {s.name}
-                    </option>
-                  ))}
-                </select>
+                  <select
+                    name="section"
+                    className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    value={sectionId}
+                    onChange={(e) => setSectionId(e.target.value)}
+                    required
+                  >
+                    <option value="">{t('createFeature.placeholders.section')}</option>
+                    {sections.map((s) => (
+                      <option key={s.id} value={s.id}>
+                        {s.name}
+                      </option>
+                    ))}
+                  </select>
                   {sectionError && (
                     <p className="mt-1 text-sm text-red-600 dark:text-red-400">{sectionError}</p>
                   )}

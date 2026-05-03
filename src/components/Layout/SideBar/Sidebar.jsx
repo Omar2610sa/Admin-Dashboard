@@ -34,13 +34,13 @@ const Sidebar = ({ collapsed, currentPage, onPageChange }) => {
             label: "Dashboard",
         },
 
-        {
-            id: "Users",
-            icon: Users,
-            label: "Users",
-            count: "1",
+        // {
+        //     id: "Users",
+        //     icon: Users,
+        //     label: "Users",
+        //     count: "1",
 
-        },
+        // },
         {
             id: "Sections",
             icon: Box,
@@ -64,15 +64,16 @@ const Sidebar = ({ collapsed, currentPage, onPageChange }) => {
             icon: Form,
             label: "Applications",
         },
-        {
-            id: "Notifications",
-            icon: Bell,
-            label: "Notifications",
-        },
+
         {
             id: "Country",
             icon: Globe,
             label: "Country",
+        },
+        {
+            id: "Notifications",
+            icon: Bell,
+            label: "Notifications",
         },
         {
             id: "Settings",
@@ -109,7 +110,7 @@ const Sidebar = ({ collapsed, currentPage, onPageChange }) => {
                                         onPageChange(item.id);
                                     }
                                 }}
-                                className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-200 ${currentPage === item.id
+                                className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-200 ${currentPage === item.id 
                                     ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/25"
                                     : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/50"
                                     }`}

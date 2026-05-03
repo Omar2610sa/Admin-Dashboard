@@ -46,7 +46,7 @@ const resources = {
             // Sections translations
             sections: {
                 title: "All Sections",
-                description: "Manage all sections ({count})",
+                description: "Manage all sections",
                 addButton: "Add Section",
                 errorTitle: "Error loading sections",
                 table: {

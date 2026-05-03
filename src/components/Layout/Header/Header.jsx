@@ -104,11 +104,8 @@ const Header = ({ onToggle }) => {
                     </div>
                 </div>
                 {/* Add */}
-                <div className='flex items-center space-x-3'>
-                    <button className='hidden lg:flex items-center space-x-2 py-2 px-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:shadow-lg cursor-pointer transition-all rounded-xl'>
-                        <AddIcon className='w-4 h-4' />
-                        <span className='text-sm font-medium'>{t("New")}</span>
-                    </button>
+                <div className='flex items-center space-x-4'>
+
                     {/* theme toggle */}
                     <button
                         onClick={toggleTheme}

@@ -5,7 +5,9 @@ import BaseTable from '../../components/Reuseble/BaseTable/BaseTable';
 import PreviewIcon from '@mui/icons-material/Preview';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
+import i18n from '../../language/i18n';
+
+
 
 // Delete functionality
 import { CheckDelete } from '../../components/Alerts/CheckDelete';
@@ -13,6 +15,18 @@ import { SuccessAlert } from '../../components/Alerts/SuccessAlert';
 
 // Material Ui icons
 import DeleteIcon from '@mui/icons-material/Delete';
+import HomeIcon from '@mui/icons-material/Home';
+import EditDocumentIcon from '@mui/icons-material/EditDocument';
+// Material Ui componnets
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import Typography from "@mui/material/Typography";
+import Link from "@mui/material/Link";
+import Stack from "@mui/material/Stack";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+
+
+
 
 const Applications = () => {
   const [applications, setApplications] = useState([]);
@@ -32,6 +46,7 @@ const Applications = () => {
   const [deleteLoading, setDeleteLoading] = useState(new Set());
 
   const { t } = useTranslation();
+  const isArabic = i18n.language === "ar";
 
   const fetchApplications = async () => {
     setLoading(true);
@@ -187,11 +202,46 @@ const Applications = () => {
     );
   }
 
+  // breadcrumbs
+  const breadcrumbs = [
+    <Link
+      underline="hover"
+      key="1"
+      color="inherit"
+      className="flex items-center justify-between gap-1"
+      href="/app/Dashboard"
+      to="/app/Dashboard"
+    >
+      <HomeIcon sx={{ mr: 0.5 }} fontSize="small" />
+      {t("Dashboard")}
+    </Link>,
+    <Link
+      underline="hover"
+      key="2"
+      className="flex items-center justify-between gap-1"
+      href="/app/Applications"
+      to="/app/Applications"
+    >
+      <EditDocumentIcon sx={{ mr: 0.5 }} fontSize="small" />
+      {t("Applications")}
+    </Link>,
+  ];
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-black text-slate-800 dark:text-white">
+          {/* Breadcrumbs */}
+          <div>
+            <Breadcrumbs
+              separator={!isArabic ? <NavigateNextIcon fontSize="medium" /> : <NavigateBeforeIcon fontSize="medium" />}
+              aria-label="Section"
+              className="!text-slate-800 dark:!text-white !text-md"
+            >
+              {breadcrumbs}
+            </Breadcrumbs>
+          </div>
+          <h1 className="text-3xl font-black text-slate-800 dark:text-white mt-5">
             {t('applications.title', 'Applications')}
           </h1>
           <p className="text-slate-600 dark:text-slate-400 mt-1">

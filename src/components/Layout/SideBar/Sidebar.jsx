@@ -19,7 +19,7 @@ import { useTranslation } from "react-i18next";
 // Language 
 
 // Images imports
-const logo =  "../../../assets/logo-white.png";
+import logo from "../../assets/logo-white.png";
 
 const Sidebar = ({ collapsed, currentPage, onPageChange }) => {
     const { t } = useTranslation();

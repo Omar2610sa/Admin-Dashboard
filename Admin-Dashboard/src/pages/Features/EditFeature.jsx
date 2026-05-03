@@ -23,6 +23,7 @@ const EditFeature = () => {
     const [mediaLoadError, setMediaLoadError] = useState(false);
     const [isBlogsFeature, setIsBlogsFeature] = useState(false);
     const [isServiceFeature, setIsServiceFeature] = useState(false);
+    const [isBoardsSection, setIsBoardsSection] = useState(false);
     const [mediaPreview, setMediaPreview] = useState("")
 
     // Fetch feature data
@@ -49,7 +50,9 @@ const EditFeature = () => {
                 const isService = data.type === 'services' || data.section === 'services';
                 setIsBlogsFeature(isBlogs);
                 setIsServiceFeature(isService);
-                console.log('Feature blogs check:', { type: data.type, section: data.section, isBlogs });
+                const isBoards = data.section === 'boards';
+                setIsBoardsSection(isBoards);
+                console.log('Feature section check:', { type: data.type, section: data.section, isBlogs, isBoards });
             } catch (err) {
                 navigate('/app/features');
             } finally {
@@ -127,14 +130,21 @@ const EditFeature = () => {
         const formDataObj = Object.fromEntries(new FormData(e.target));
         const { media, ...payload } = formDataObj;
 
-        if (mediaValue) {
-            payload.media = mediaValue.media_url ?? mediaValue;
-        } else if (feature?.media) {
-            payload.media = feature.media;
+        if (isBoardsSection) {
+            // Clean unnecessary fields for boards
+            delete payload.label_ar;
+            delete payload.label_en;
+            delete payload.media;
+        } else {
+            if (mediaValue) {
+                payload.media = mediaValue.media_url ?? mediaValue;
+            } else if (feature?.media) {
+                payload.media = feature.media;
+            }
         }
-        if (payload.media == mediaValue.media_url) {
+        /* if (payload.media == mediaValue.media_url) {
             delete payload.media
-        }
+        } */
         payload.is_active = isActive ? 1 : 0;
 
         try {
@@ -195,118 +205,122 @@ const EditFeature = () => {
             <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-xl border border-slate-100 dark:border-slate-700">
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Media Upload */}
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-4">
-                            {t('editFeature.media')}
-                        </label>
+                    {  (
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-4">
+                                {t('editFeature.media')}
+                            </label>
 
-                        {/* mediaPreview Container */}
-                        {mediaPreview && (
-                            <div className="mb-4">
-                                <div className="w-48 h-40 rounded-lg shadow-md border-2 border-slate-200 dark:border-slate-600 mx-auto bg-slate-100 dark:bg-slate-700 overflow-hidden flex items-center justify-center">
-                                    {(() => {
-                                        try {
-                                            const isVideo = isVideoFile(mediaPreview);
-                                            const mediaStr = typeof mediaPreview === 'string' ? mediaPreview : (mediaPreview?.media_url || mediaPreview?.url || mediaValue?.path || mediaValue?.name || '');
-                                            const url = fixMediaUrl(mediaStr);
+                            {/* mediaPreview Container */}
+                            {mediaPreview && (
+                                <div className="mb-4">
+                                    <div className="w-48 h-40 rounded-lg shadow-md border-2 border-slate-200 dark:border-slate-600 mx-auto bg-slate-100 dark:bg-slate-700 overflow-hidden flex items-center justify-center">
+                                        {(() => {
+                                            try {
+                                                const isVideo = isVideoFile(mediaPreview);
+                                                const mediaStr = typeof mediaPreview === 'string' ? mediaPreview : (mediaPreview?.media_url || mediaPreview?.url || mediaValue?.path || mediaValue?.name || '');
+                                                const url = fixMediaUrl(mediaStr);
 
-                                            if (mediaLoadError) {
-                                                return (
-                                                    <div className="flex flex-col items-center justify-center h-full gap-2">
-                                                        <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4v2m0-10V5m0 4V3m0 8v2m0 4v2" />
-                                                        </svg>
-                                                        <p className="text-xs text-red-500 text-center px-2">{t('editFeature.mediaFailed')}</p>
-                                                    </div>
+                                                if (mediaLoadError) {
+                                                    return (
+                                                        <div className="flex flex-col items-center justify-center h-full gap-2">
+                                                            <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4v2m0-10V5m0 4V3m0 8v2m0 4v2" />
+                                                            </svg>
+                                                            <p className="text-xs text-red-500 text-center px-2">{t('editFeature.mediaFailed')}</p>
+                                                        </div>
+                                                    );
+                                                }
+
+                                                return isVideo ? (
+                                                    <video src={url} controls className="w-full h-full object-cover" muted>
+                                                        Your browser does not support the video tag.
+                                                    </video>
+                                                ) : (
+                                                    <img
+                                                        src={url}
+                                                        alt="Current media"
+                                                        className="w-full h-full object-cover"
+                                                        onError={() => {
+                                                            setMediaLoadError(true);
+                                                        }}
+                                                        onLoad={() => {
+                                                            setMediaLoadError(false);
+                                                        }}
+                                                    />
                                                 );
+                                            } catch (err) {
+                                                return <p className="text-xs text-red-500">{t('editFeature.mediaFailed')}</p>;
                                             }
-
-                                            return isVideo ? (
-                                                <video src={url} controls className="w-full h-full object-cover" muted>
-                                                    Your browser does not support the video tag.
-                                                </video>
-                                            ) : (
-                                                <img
-                                                    src={url}
-                                                    alt="Current media"
-                                                    className="w-full h-full object-cover"
-                                                    onError={() => {
-                                                        setMediaLoadError(true);
-                                                    }}
-                                                    onLoad={() => {
-                                                        setMediaLoadError(false);
-                                                    }}
-                                                />
-                                            );
-                                        } catch (err) {
-                                            return <p className="text-xs text-red-500">{t('editFeature.mediaFailed')}</p>;
-                                        }
-                                    })()}
+                                        })()}
+                                    </div>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 text-center mt-2">
+                                        {t('editFeature.currentMedia')}
+                                    </p>
                                 </div>
-                                <p className="text-xs text-slate-500 dark:text-slate-400 text-center mt-2">
-                                    {t('editFeature.currentMedia')}
-                                </p>
-                            </div>
-                        )}
+                            )}
 
-                        {/* Upload Area */}
-                        <label
-                            htmlFor="media-upload"
-                            className={`flex flex-col items-center justify-center gap-2 py-8 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-2xl cursor-pointer hover:border-blue-500 hover:bg-blue-50 dark:hover:border-blue-400 dark:hover:bg-blue-950/50 transition-all w-full ${uploadingMedia ? 'opacity-50 cursor-not-allowed' : ''}`}
-                        >
-                            <svg className="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                            </svg>
-                            <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                                {uploadingMedia ? t('editFeature.uploading') : t('editFeature.uploadMedia')}
-                            </span>
-                            <p className="text-xs text-slate-500 dark:text-slate-400">
-                                {t('editFeature.mediaFormat')}
-                            </p>
-                        </label>
-
-                        <input
-                            id="media-upload"
-                            type="file"
-                            accept="image/*,video/*"
-                            onChange={handleMediaChange}
-                            className="hidden"
-                            disabled={uploadingMedia}
-                        />
-
-                        {uploadingMedia && (
-                            <div className="mt-3 flex items-center text-blue-600 dark:text-blue-400">
-                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                            {/* Upload Area */}
+                            <label
+                                htmlFor="media-upload"
+                                className={`flex flex-col items-center justify-center gap-2 py-8 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-2xl cursor-pointer hover:border-blue-500 hover:bg-blue-50 dark:hover:border-blue-400 dark:hover:bg-blue-950/50 transition-all w-full ${uploadingMedia ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            >
+                                <svg className="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                 </svg>
-                                {t('editFeature.uploadingMedia')}
-                            </div>
-                        )}
+                                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                                    {uploadingMedia ? t('editFeature.uploading') : t('editFeature.uploadMedia')}
+                                </span>
+                                <p className="text-xs text-slate-500 dark:text-slate-400">
+                                    {t('editFeature.mediaFormat')}
+                                </p>
+                            </label>
 
-                        {mediaError && (
-                            <div className="mt-3 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-sm text-red-600 dark:text-red-400">
-                                {mediaError}
-                            </div>
-                        )}
+                            <input
+                                id="media-upload"
+                                type="file"
+                                accept="image/*,video/*"
+                                onChange={handleMediaChange}
+                                className="hidden"
+                                disabled={uploadingMedia}
+                            />
 
-                        <input type="hidden" name="media" value={mediaValue} />
-                    </div>
+                            {uploadingMedia && (
+                                <div className="mt-3 flex items-center text-blue-600 dark:text-blue-400">
+                                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                                    </svg>
+                                    {t('editFeature.uploadingMedia')}
+                                </div>
+                            )}
+
+                            {mediaError && (
+                                <div className="mt-3 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-sm text-red-600 dark:text-red-400">
+                                    {mediaError}
+                                </div>
+                            )}
+
+                            <input type="hidden" name="media" value={mediaValue} />
+                        </div>
+                    )}
 
                     {/* Title Fields */}
                     <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${isRTL ? 'rtl' : 'ltr'}`}>
-                        <div>
-                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                {t('editFeature.labelAr')}
-                            </label>
-                            <input
-                                type="text"
-                                name="label_ar"
-                                defaultValue={feature.label_ar || feature.title || ''}
-                                className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                                required
-                            />
-                        </div>
+                        {!isBoardsSection && (
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                                    {t('editFeature.labelAr')}
+                                </label>
+                                <input
+                                    type="text"
+                                    name="label_ar"
+                                    defaultValue={feature.label_ar || feature.title || ''}
+                                    className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                    required
+                                />
+                            </div>
+                        )}
                         <div>
                             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                                 {t('editFeature.labelEn')}
@@ -343,7 +357,7 @@ const EditFeature = () => {
                     </div>
 
                     {/* Blogs Description Fields - Conditional */}
-                    {isBlogsFeature && (
+                    {(isBlogsFeature || isServiceFeature || isBoardsSection) && (
                         <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${isRTL ? 'rtl' : 'ltr'}`}>
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
@@ -367,6 +381,17 @@ const EditFeature = () => {
                                     rows="4"
                                     className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-vertical"
                                     placeholder={t('editFeature.placeholders.descriptionEn')}
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                                    {t('editFeature.titleEn')}
+                                </label>
+                                <input
+                                    type="text"
+                                    name="title_en"
+                                    defaultValue={feature.title_en || ''}
+                                    className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                                 />
                             </div>
                         </div>
@@ -403,20 +428,21 @@ const EditFeature = () => {
                     )}
 
                     {/* Status Toggle */}
-                    <div>
-                        <label className={`flex items-center justify-between text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                            <span>{t('editFeature.status')}</span>
-                            <span className="text-xs text-slate-500 dark:text-slate-400">
-                                {isActive ? t('active') : t('inactive')}
-                            </span>
-                        </label>
-                        <ToggleSwitch
-                            checked={isActive}
-                            onChange={setIsActive}
-                        />
-                        <input type="hidden" name="is_active" value={isActive ? 1 : 0} />
-                    </div>
-
+                    {!isBoardsSection && (
+                        <div>
+                            <label className={`flex items-center justify-between text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                                <span>{t('editFeature.status')}</span>
+                                <span className="text-xs text-slate-500 dark:text-slate-400">
+                                    {isActive ? t('active') : t('inactive')}
+                                </span>
+                            </label>
+                            <ToggleSwitch
+                                checked={isActive}
+                                onChange={setIsActive}
+                            />
+                            <input type="hidden" name="is_active" value={isActive ? 1 : 0} />
+                        </div>
+                    )}
                     {/* Action Buttons */}
                     <div className={`flex space-x-4 ${isRTL ? 'flex-row-reverse space-x-reverse' : ''}`}>
                         <button

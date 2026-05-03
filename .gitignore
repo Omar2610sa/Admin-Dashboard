@@ -12,7 +12,6 @@ dist
 dist-ssr
 *.local
 
-assets
 TODO-Sidebar-Animation.md
 # Editor directories and files
 .vscode/*

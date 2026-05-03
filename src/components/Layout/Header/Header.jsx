@@ -13,7 +13,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-import logo from "../../assets/logo-white.png";
+import logo from "../../assets/eraf-Logo.png";
 
 
 import { useNavigate } from "react-router-dom";

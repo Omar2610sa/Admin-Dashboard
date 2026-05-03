@@ -7,7 +7,7 @@ import api from '../../APIs/api';
 import { SuccessAlert } from '../../components/Alerts/SuccessAlert';
 import { UnSuccessAlert } from '../../components/Alerts/UnSuccessAlert';
 
-import logo from "../../assets/eraf-Logo.png";
+import logo from "../../assets/logo/logo-white.png";
 
 const Login = () => {
     const [email, setEmail] = useState('');

@@ -1,4 +1,4 @@
-import { lazy, useState } from "react";
+import { useState } from "react";
 import {
     Home,
     BarChart3,
@@ -19,7 +19,7 @@ import { useTranslation } from "react-i18next";
 // Language 
 
 // Images imports
-const logo = (()=>  lazy("../../../assets/logo-white.png"));
+const logo =  "../../../assets/logo-white.png";
 
 const Sidebar = ({ collapsed, currentPage, onPageChange }) => {
     const { t } = useTranslation();
